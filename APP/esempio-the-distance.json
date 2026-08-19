@@ -1,7 +1,7 @@
 {
   "role": "example-only",
   "not": "app-default-skeleton",
-  "means": "Cosa conterrebbe l'incubatore SE importassi questo repo e accettassi ogni proposta ALBUM/*.md. L'app parte da 0 pezzi.",
+  "means": "Cosa conterrebbe l'incubatore SE importassi questo repo e accettassi ogni proposta ALBUM/*.md. L'app parte da 0 pezzi. Singoli, social, stampa e date di lancio restano buchi: questo repo non li contiene.",
   "album": "The Distance",
   "canonVersion": "v3",
   "readFrom": "repo files on 2026-08-19",
