@@ -5,6 +5,8 @@
 **Versione spec:** 1.0  
 **Stato:** implementabile (stati, rami, mapping file, vincoli)
 
+Piano d’insieme (stack, UI, roster AI, API): [`../APP/PIANO.md`](../APP/PIANO.md).
+
 Questo documento specifica **solo** il loop eroe:
 
 > **INGEST** frammenti esistenti → **INCASELLA** nello scaffale già sagomato da *questo* album → **GENERA** i buchi, coerente col materiale slottato.

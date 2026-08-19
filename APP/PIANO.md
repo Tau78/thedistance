@@ -2,6 +2,8 @@
 
 > Banco di produzione per **The Distance** (Distance Proof Band).  
 > Un album incompleto entra a pezzi. La app lo incasella. Tu e le AI chiudete i buchi, senza inventare un altro album.
+>
+> Dettaglio esecutivo del loop (stati, rami, walkthrough, mapping file): [`../docs/SPEC-CORE-LOOP.md`](../docs/SPEC-CORE-LOOP.md).
 
 ---
 
