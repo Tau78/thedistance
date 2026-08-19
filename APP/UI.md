@@ -1,156 +1,150 @@
 # Incubatore — UI
 
-Complemento di [`PIANO.md`](PIANO.md). Desktop 1440×900, mobile 390×844.
-
-Niente chrome d’album (anni, π, 5125, “THE DISTANCE”) finché quel materiale non è slottato e tu non lo usi come identità.
+Desktop 1440×900, mobile 390×844. Banco, non identità di un album.
 
 ---
 
 ## Chrome
 
-Stato vuoto:
-
 ```
-┌─ Incubatore · senza titolo · 0 pezzi ───────────────────────── 0% ─┐
-│ ⌕                                                                  │
-├──────────┬─────────────────────────────────────────┬───────────────┤
-│ Inbox    │                                         │ Contesto      │
-│ Scaffale │                                         │ Niente ancora │
-│ Canone   │                                         │               │
-│ Stile    │                                         │               │
-│ Artwork  │                                         │               │
-│ Ricerca  │                                         │               │
-│ Linter   │                                         │               │
-│ Genera   │                                         │               │
-│ Sessione │                                         │               │
-│ Present. │                                         │               │
-│ Impostaz.│                                         │               │
-└──────────┴─────────────────────────────────────────┴───────────────┘
-```
-
-Dopo l’ingest (esempio: hai accettato un titolo):
-
-```
-┌─ The Distance · 11 pezzi · 2 decisioni ─────────────── 28% ─┐
+┌─ Incubatore · senza titolo · 0 pezzi · fase: raccolta ──── buchi 12 ─┐
+│ ⌕  (celle, contatti, mail — non “file”)                              │
+├──────────┬────────────────────────────────────────┬──────────────────┤
+│ Inbox    │                                        │ ORA SERVE        │
+│ Timeline │              PAGINA                    │ (librarian)      │
+│ Caselle  │                                        │                  │
+│ Pezzi    │                                        │ Buchi di fase    │
+│ Singoli  │                                        │                  │
+│ Identità │                                        │                  │
+│ Social   │                                        │                  │
+│ Stampa   │                                        │                  │
+│ Genera   │                                        │                  │
+│ Sessione │                                        │                  │
+│ Cartella │                                        │                  │
+│ Impostaz.│                                        │                  │
+└──────────┴────────────────────────────────────────┴──────────────────┘
 ```
 
-Il nome in testata è la cella `work.title` se approved, altrimenti `senza titolo`.  
-Percentuale = celle esistenti, non “/15”.
-
-Mobile: `Inbox | Scaffale | Genera | Altro`.
+Mobile: `Inbox | Timeline | Buchi | Altro`.  
+`ORA SERVE` è un foglio dal basso, cambia con la pagina.
 
 ---
 
-## First-run / Scaffale vuoto
-
-Schermo intero, una colonna:
+## First-run
 
 ```
 INCUBATORE
 
-Non c’è un album.
-Non ci sono tracce.
-Non c’è un genere.
+Non c’è un album. Non c’è un lancio.
+C’è un casellario vuoto e una linea senza date.
 
-[ Inserisci materiale ]
-[ Nuovo pezzo ]
+[ Inserisci quello che hai ]
+[ Guarda i buchi del percorso ]
 ```
 
-Niente form titolo/genere/numero. Niente anteprima di 15 tile.
+---
+
+## Timeline (`/`)
+
+```
+RACCOLTA ── CREAZIONE ── PRODOTTO ── IDENTITÀ ── SOCIAL ── STAMPA ── LANCIO ── RICONTACTI
+   ●           ●            ○           ○          ○         ○         ○          ○
+  4 item      2 pezzi     singoli?     bio?      0 storie   0 mail    data?     —
+
+Prossimo:
+  · Quali sono i singoli?
+  · Hai i contenuti social?  (storie / post / foto: —)
+  · Chi vuoi contattare?
+
+[ Proponi una linea a ritroso ]   (chiede una data di lancio; se manca, la chiede)
+```
+
+Click fase → lista buchi + oggetti già slottati in quella famiglia.  
+Niente Gantt finto con 40 post inventati.
 
 ---
 
 ## Inbox
 
+Come prima, più target:
+
 ```
-┌ Butta qui quello che hai ─────────────────────────────────────┐
-└───────────────────────────────────────────────────────────────┘
+mario-rumore.txt              proposed
+  → Crea contatto · stampa           0.88
+     [ Crea ] [ È una mail ] [ Scarta ]
 
-scrap.txt                         proposed
-  → Crea pezzo (senza nome) · lyrics     0.74
-     [ Crea e incasella ] [ Solo testo di lavoro ] [ Scarta ]
-
-playlist-bozza.md                 needs_human
-  → Crea 8 pezzi dai heading             0.61
-     [ Scegli quali… ] [ Tratta come note ]
-
-room-pt2-idea.txt                 proposed
-  → Pezzo già esistente “Room Pt.1”?     0.48
-     alt: Crea pezzo “Room Pt.2”
-     [ È un altro pezzo ] [ È lo stesso ] [ Non so ]
+6-storie-primo-singolo.md     proposed
+  → Piano social · 6 storie          0.80
+     [ Crea 6 slot storia ] [ Solo nota ]
 ```
-
-La CTA primaria, se non esiste un pezzo compatibile, è **Crea pezzo**, non “metti nello scaffale 09”.
 
 ---
 
-## Scaffale (con materiale)
+## Casellario (`/cabinet`)
 
-Lista, non griglia 15×N.
-
-```
-Lavoro: (senza titolo)                    [ + Pezzo ]  [ Inserisci ]
-
-○  · untitled-1     concept □  lyrics ◐  audio □
-○  · First Ripples  concept ■  lyrics ■  style ■  art □
-○  · (wav)          audio ■   lyrics □
-```
-
-Drag per riordinare. L’ordine è `listen_order`, editabile, non sacro.  
-Click riga → `/pieces/:id`.
+Tab: Pezzi · Asset · Singoli · Identità · Social · Stampa · Decisioni.  
+Ognuna: lista o empty *“Nessun contatto. Inserisci o importa un foglio.”*
 
 ---
 
 ## Pezzo
 
-Testata: titolo o `Senza nome`. Campo labels a chip (le aggiungi tu o le accetti dal classifier): niente dropdown Anno/Atto precotto.
-
-Tab celle del kit (vuote). Empty lyrics:
-
-> Non c’è testo.  
-> Se generi, l’AI userà solo ciò che hai già approvato in questa incubazione.  
-> Oggi il pack è: *(elenco o “vuoto — chiederà o resterà minimale”)*.  
-> [ Genera ] [ Incolla ]
-
-`not_applicable` è un menu tuo (“strumentale”, “reverse di [pezzo]”, “solo sample”).
+Invariato nel kit creativo (lyrics, audio, art…).  
+In testata chip: `è un singolo?` se la fase prodotto è aperta.
 
 ---
 
-## Canone
+## Singoli
 
-Empty:
-
-> Non ci sono decisioni.  
-> Nascono quando confermi una frase del materiale (“il finale è X”)  
-> o quando ne scrivi una qui.  
-> [ Nuova decisione ]
-
-Niente tabella da 9 pin The Distance.
+Empty: *“Non hai scelto singoli. Il produttore può proporre solo dai pezzi che esistono.”*  
+Con pezzi: card per pezzo, toggle singolo, wave 1/2/…, data.
 
 ---
 
-## Stile / Artwork / Ricerca / Linter / Genera / Presentazione
+## Identità
 
-Tutte partono vuote e **si popolano sui pezzi esistenti**.  
-Artwork: 0 tile se 0 pezzi.  
-Genera: se 0 celle target, bottone spento, copy: *Prima serve almeno un pezzo o una nota slottata.*  
-Presentazione: disabilitata se 0 pezzi approved.  
-Ricerca: `+ Tema` — zero schede Frantic Caller di default.
+Campi: nome lavoro, artista, bio, one-liner, cover, foto stampa, logo, EPK.  
+Tutti vuoti. Generate bio = pack dai pezzi approved, o refuse.
+
+---
+
+## Social
+
+Alto: **numeri che hai deciso** (o “non decisi”).
+
+```
+Per drop “—” :  storie [  ]  post [  ]  foto [  ]
+```
+
+Sotto: slot nati da quei numeri, stato empty/draft/scheduled.  
+Librarian a destra: cover e pezzo singolo, se ci sono.
+
+---
+
+## Stampa
+
+Due colonne: **Rubrica** | **Mail**.
+
+Rubrica: nome, testata, mail, tag.  
+Mail: thread per contatto — bozza, inviata, waiting, da ricontattare (badge).  
+Composer pitch: a destra bio/cover/singoli; se mancano, link al buco, non testo inventato.
 
 ---
 
 ## Sessione
 
-Composer. Se l’incubazione è vuota e chiedi “scrivimi l’album”, refuse:
+Comandi: `/buchi` `/singoli` `/pitch` `/social` `/ricontatti` `/timeline`.  
+“Inventami 20 blog da scrivere” → refuse: *inserisci chi vuoi contattare*.
 
-> Non c’è materiale. Inserisci qualcosa o apri un pezzo.
+---
 
-`/struttura` lancia `propose_structure` (proposte in inbox), non crea 10 cassetti.
+## Cartella stampa (`/present`)
+
+EPK da celle approved. Se buchi block (no bio, no cover), export “di lavoro” con watermark.
 
 ---
 
 ## Impostazioni
 
-Chiavi API, modelli per ruolo, git.  
-`Nuova incubazione` con conferma.  
-Niente “Album: The Distance” in sola lettura.
+Chiavi, modelli, `Nuova incubazione`.  
+Promemoria ricontatti (locale / mail a te), non invio automatico alle redazioni.

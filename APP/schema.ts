@@ -1,36 +1,9 @@
 /**
  * Incubatore — dominio.
- * Nessun album, traccia, genere, epoca o decisione è precotto.
- * Le istanze nascono dall'inbox + conferma umana.
+ * Il contenuto dell'album non è precotto (0 pezzi, titolo/genere null).
+ * Il *programma di lavoro* sì: una spina dalla raccolta al lancio,
+ * con caselle vuote che si riempiono quando inserisci o confermi.
  */
-
-export type CellKind =
-  | "meta"
-  | "concept"
-  | "lyrics"
-  | "translation"
-  | "analysis"
-  | "style_prompt"
-  | "gen_lyrics"
-  | "artwork"
-  | "audio_take"
-  | "links"
-  | "open_questions"
-  | "sample_ref"
-  | "archive"
-  | "custom";
-
-export type WorkCellKind =
-  | "title"
-  | "concept"
-  | "story"
-  | "listen_order"
-  | "decisions"
-  | "style_bible"
-  | "cover"
-  | "identity"
-  | "presentation"
-  | "notes";
 
 export type CellStatus =
   | "empty"
@@ -40,7 +13,11 @@ export type CellStatus =
   | "generated"
   | "approved"
   | "locked"
-  | "not_applicable";
+  | "not_applicable"
+  | "scheduled"
+  | "sent"
+  | "waiting"
+  | "done";
 
 export type InboxKind =
   | "text_paste"
@@ -48,12 +25,15 @@ export type InboxKind =
   | "odt_rtf"
   | "audio"
   | "image"
+  | "video"
   | "pdf"
   | "url"
   | "voice_memo"
   | "generator_link"
   | "git_repo"
   | "screenshot"
+  | "email_draft"
+  | "contact_card"
   | "unknown";
 
 export type InboxStatus =
@@ -66,175 +46,118 @@ export type InboxStatus =
   | "rejected"
   | "archived";
 
-/** Una proposta può *creare* un pezzo che ancora non esiste. */
+/** Spina di metodo: non è l'album, è il percorso creazione → lancio. */
+export type PhaseId =
+  | "raccolta"
+  | "creazione"
+  | "prodotto"
+  | "identita"
+  | "social"
+  | "stampa"
+  | "lancio"
+  | "ricontatti";
+
+export const PHASE_ORDER: PhaseId[] = [
+  "raccolta",
+  "creazione",
+  "prodotto",
+  "identita",
+  "social",
+  "stampa",
+  "lancio",
+  "ricontatti",
+];
+
+export type DrawerFamily =
+  | "piece"
+  | "work"
+  | "asset"
+  | "single"
+  | "identity"
+  | "social"
+  | "press"
+  | "timeline"
+  | "decision"
+  | "research";
+
+export type PieceCellKind =
+  | "meta"
+  | "concept"
+  | "lyrics"
+  | "translation"
+  | "analysis"
+  | "style_prompt"
+  | "gen_lyrics"
+  | "artwork"
+  | "audio_take"
+  | "links"
+  | "open_questions"
+  | "archive"
+  | "custom";
+
+export type WorkCellKind =
+  | "title"
+  | "concept"
+  | "story"
+  | "listen_order"
+  | "credits"
+  | "notes";
+
+export type AssetKind =
+  | "audio"
+  | "image"
+  | "video"
+  | "document"
+  | "bio"
+  | "one_liner"
+  | "epk"
+  | "press_photo"
+  | "cover"
+  | "logo"
+  | "lyric_card"
+  | "other";
+
+export type SocialFormat = "story" | "post" | "reel" | "photo" | "carousel" | "other";
+
+export type OutreachKind = "first_touch" | "follow_up" | "thank_you" | "promo" | "other";
+
 export type SlotTarget =
   | { scope: "work"; cell: WorkCellKind }
-  | { scope: "piece"; pieceId: string; cell: CellKind }
-  | { scope: "new_piece"; suggestedTitle?: string; suggestedIndex?: number; cell: CellKind }
+  | { scope: "piece"; pieceId: string; cell: PieceCellKind }
+  | { scope: "new_piece"; suggestedTitle?: string; cell: PieceCellKind }
+  | { scope: "asset"; assetId?: string; kind: AssetKind }
+  | { scope: "new_asset"; kind: AssetKind }
+  | { scope: "single"; pieceId?: string }
+  | { scope: "identity"; field: "bio" | "artist" | "name" | "photo" | "logo" }
+  | { scope: "social_item"; itemId?: string; format?: SocialFormat }
+  | { scope: "contact"; contactId?: string }
+  | { scope: "outreach"; outreachId?: string }
+  | { scope: "timeline"; eventId?: string; phase?: PhaseId }
   | { scope: "decision"; decisionId?: string; newQuestion?: string }
-  | { scope: "research"; topicId?: string; newTopic?: string }
-  | { scope: "voice"; voiceId?: string; newName?: string }
-  | { scope: "symbol"; symbolId?: string; newName?: string }
+  | { scope: "research"; topicId?: string }
   | { scope: "uncertain" };
 
 export type GenerationKind =
   | "lyrics"
   | "translation"
   | "analysis"
-  | "gen_lyrics"
   | "style_prompt"
   | "artwork_brief"
   | "artwork_image"
   | "audio_official"
   | "export_pack"
-  | "open_questions"
-  | "continuity_lint"
-  | "presentation"
-  | "research_digest"
+  | "bio"
+  | "one_liner"
+  | "epk"
+  | "pitch_email"
+  | "follow_up_email"
+  | "social_copy"
+  | "social_plan"
+  | "single_proposal"
+  | "timeline_proposal"
+  | "missing_report"
+  | "press_list_gaps"
   | "propose_structure";
-
-export type GenerationStatus =
-  | "queued"
-  | "running"
-  | "needs_review"
-  | "approved"
-  | "rejected"
-  | "failed";
-
-export type DecisionStatus = "proposed" | "locked" | "superseded";
-
-export type LinkKind =
-  | "precedes"
-  | "follows"
-  | "reverse_of"
-  | "bookend"
-  | "answers"
-  | "related"
-  | "source_audio"
-  | "custom";
-
-export interface Work {
-  id: string;
-  /** Null finché nessuno titolo è stato inserito o approvato. */
-  title: string | null;
-  artist: string | null;
-  /** Null: il genere non esiste finché non emerge dal materiale. */
-  genre: string | null;
-  listenOrder: string[];
-  createdAt: string;
-}
-
-export interface Piece {
-  id: string;
-  /** Ordine corrente, riassegnabile. Non è un tetto. */
-  index: number | null;
-  title: string | null;
-  subtitle: string | null;
-  /** Etichette libere nate dal materiale: anno, atto, epoca, umore… */
-  labels: Record<string, string>;
-  voices: string[];
-  symbols: string[];
-  specialRules: SpecialRule[];
-}
-
-export interface SpecialRule {
-  id: string;
-  rule: string;
-  locked: boolean;
-  /** Origine: inbox item o decisione, mai codice dell'app. */
-  sourceItemId?: string;
-}
-
-export interface Cell {
-  id: string;
-  workId: string;
-  pieceId: string | null;
-  kind: CellKind | WorkCellKind;
-  customKind?: string;
-  status: CellStatus;
-  currentVersionId: string | null;
-  allowedGenerators: GenerationKind[];
-}
-
-export interface ItemVersion {
-  id: string;
-  cellId: string;
-  origin: "imported" | "generated" | "human_edit";
-  bodyMarkdown: string;
-  locale?: string;
-  createdAt: string;
-  approvedAt: string | null;
-  model?: string;
-  promptHash?: string;
-  parentVersionId?: string;
-}
-
-export interface InboxItem {
-  id: string;
-  workId: string;
-  kind: InboxKind;
-  status: InboxStatus;
-  filename?: string;
-  mime?: string;
-  textExtract?: string;
-  storageKey?: string;
-  proposedSlots: SlotProposal[];
-  acceptedSlot?: SlotTarget;
-  conflictIds: string[];
-  createdAt: string;
-}
-
-export interface SlotProposal {
-  target: SlotTarget;
-  confidence: number;
-  reasons: string[];
-  extractedTitle?: string;
-  warnings: string[];
-  /** Se true, accettare crea un Piece nuovo. */
-  createsPiece: boolean;
-}
-
-export interface EmergentDecision {
-  id: string;
-  workId: string;
-  question: string;
-  choice: string;
-  status: DecisionStatus;
-  sourceItemIds: string[];
-  lockedAt?: string;
-  supersededBy?: string;
-}
-
-export interface PieceLink {
-  fromPieceId: string;
-  toPieceId: string;
-  kind: LinkKind;
-  note?: string;
-}
-
-export interface Contradiction {
-  id: string;
-  workId: string;
-  severity: "info" | "warn" | "block";
-  code: string;
-  message: string;
-  cellIds: string[];
-  suggestedFix?: string;
-  status: "open" | "accepted_exception" | "resolved";
-}
-
-export interface GenerationJob {
-  id: string;
-  workId: string;
-  kind: GenerationKind;
-  status: GenerationStatus;
-  target: SlotTarget;
-  agentRole: AgentRole;
-  model: string;
-  contextPackId: string;
-  outputVersionId?: string;
-  error?: string;
-}
 
 export type AgentRole =
   | "classifier"
@@ -246,10 +169,194 @@ export type AgentRole =
   | "art_director"
   | "researcher"
   | "continuity_editor"
-  | "producer";
+  | "producer"
+  | "press_officer"
+  | "social_editor"
+  | "librarian";
 
-/** Kit di faccette di default per un pezzo appena creato. Vuote. Estendibili. */
-export const DEFAULT_PIECE_CELLS: CellKind[] = [
+export interface Work {
+  id: string;
+  title: string | null;
+  artist: string | null;
+  genre: string | null;
+  listenOrder: string[];
+  /** Data ancora ignota finché non la locki. */
+  launchDate: string | null;
+  createdAt: string;
+}
+
+export interface Piece {
+  id: string;
+  index: number | null;
+  title: string | null;
+  subtitle: string | null;
+  labels: Record<string, string>;
+  specialRules: SpecialRule[];
+}
+
+export interface SpecialRule {
+  id: string;
+  rule: string;
+  locked: boolean;
+  sourceItemId?: string;
+}
+
+export interface Cell {
+  id: string;
+  workId: string;
+  pieceId: string | null;
+  kind: string;
+  status: CellStatus;
+  currentVersionId: string | null;
+}
+
+export interface ItemVersion {
+  id: string;
+  cellId: string;
+  origin: "imported" | "generated" | "human_edit";
+  bodyMarkdown: string;
+  locale?: string;
+  createdAt: string;
+  approvedAt: string | null;
+  model?: string;
+  parentVersionId?: string;
+}
+
+export interface Asset {
+  id: string;
+  workId: string;
+  pieceId: string | null;
+  kind: AssetKind;
+  title: string | null;
+  storageKey: string | null;
+  status: CellStatus;
+  usableOn: PhaseId[];
+}
+
+export interface SinglePlan {
+  id: string;
+  workId: string;
+  pieceId: string;
+  wave: number;
+  releaseDate: string | null;
+  status: CellStatus;
+}
+
+export interface SocialItem {
+  id: string;
+  workId: string;
+  format: SocialFormat;
+  channel: string | null;
+  copy: string | null;
+  assetIds: string[];
+  pieceId: string | null;
+  scheduledAt: string | null;
+  status: CellStatus;
+}
+
+export interface Contact {
+  id: string;
+  workId: string;
+  name: string | null;
+  outlet: string | null;
+  role: string | null;
+  email: string | null;
+  tags: string[];
+  status: CellStatus;
+}
+
+export interface Outreach {
+  id: string;
+  workId: string;
+  contactId: string;
+  kind: OutreachKind;
+  subject: string | null;
+  body: string | null;
+  assetIds: string[];
+  dueAt: string | null;
+  sentAt: string | null;
+  waitDays: number | null;
+  status: CellStatus;
+}
+
+export interface TimelineEvent {
+  id: string;
+  workId: string;
+  phase: PhaseId;
+  title: string;
+  dueAt: string | null;
+  dependsOn: string[];
+  holeCodes: string[];
+  status: CellStatus;
+}
+
+/** Buchi di metodo: esistono come domande, non come contenuti d'album. */
+export interface MethodHole {
+  code: string;
+  phase: PhaseId;
+  question: string;
+  /** Quando è "risolto": regola, non lore. */
+  resolvedIf: string;
+}
+
+export const METHOD_HOLES: MethodHole[] = [
+  { code: "has_any_material", phase: "raccolta", question: "Cosa hai già?", resolvedIf: "≥1 item accepted" },
+  { code: "has_piece", phase: "creazione", question: "Esiste almeno un pezzo?", resolvedIf: "≥1 piece" },
+  { code: "piece_holes", phase: "creazione", question: "Quali pezzi sono incompleti?", resolvedIf: "report vuoto o accettato" },
+  { code: "singles", phase: "prodotto", question: "Quali sono i singoli?", resolvedIf: "≥1 SinglePlan approved o N/A" },
+  { code: "listen_order", phase: "prodotto", question: "C'è un ordine d'ascolto?", resolvedIf: "listenOrder.length ≥1 o 1 pezzo" },
+  { code: "credits", phase: "prodotto", question: "Ci sono i credits?", resolvedIf: "credits approved o N/A" },
+  { code: "name_artist", phase: "identita", question: "Come si chiama il progetto / chi è l'artista?", resolvedIf: "title o artist approved" },
+  { code: "bio", phase: "identita", question: "C'è una bio?", resolvedIf: "bio approved" },
+  { code: "cover", phase: "identita", question: "C'è una cover / foto?", resolvedIf: "cover o press_photo approved" },
+  { code: "epk", phase: "identita", question: "C'è un EPK / one-liner?", resolvedIf: "epk o one_liner approved" },
+  { code: "social_counts", phase: "social", question: "Quante storie, post, foto per ogni drop?", resolvedIf: "social plan approved o N/A" },
+  { code: "social_assets", phase: "social", question: "Hai i contenuti social?", resolvedIf: "conteggi pianificati coperti da item o buchi accettati" },
+  { code: "press_who", phase: "stampa", question: "Chi vuoi contattare?", resolvedIf: "≥1 contact o N/A" },
+  { code: "press_emails", phase: "stampa", question: "Le mail a riviste/blog sono scritte?", resolvedIf: "outreach first_touch drafted/approved o N/A" },
+  { code: "press_timing", phase: "stampa", question: "Tempistiche contatti e ricontatti?", resolvedIf: "dueAt/waitDays sulle outreach" },
+  { code: "launch_date", phase: "lancio", question: "Quando esce?", resolvedIf: "launchDate o evento lancio dated" },
+  { code: "launch_week", phase: "lancio", question: "La settimana di lancio è coperta?", resolvedIf: "timeline fase lancio senza hole block" },
+  { code: "followups_due", phase: "ricontatti", question: "Chi è in attesa di ricontatto?", resolvedIf: "nessuna outreach waiting scaduta" },
+];
+
+export interface ContextNeed {
+  /** Cosa sta facendo l'utente. */
+  task: string;
+  phase: PhaseId;
+  /** Famiglie da mostrare a destra, se esistono. */
+  pull: DrawerFamily[];
+}
+
+export const SHOW_WHEN_NEEDED: ContextNeed[] = [
+  {
+    task: "scrivere_testo_pezzo",
+    phase: "creazione",
+    pull: ["piece", "work", "decision"],
+  },
+  {
+    task: "scegliere_singoli",
+    phase: "prodotto",
+    pull: ["piece", "asset"],
+  },
+  {
+    task: "scrivere_pitch",
+    phase: "stampa",
+    pull: ["identity", "single", "asset", "press"],
+  },
+  {
+    task: "preparare_post",
+    phase: "social",
+    pull: ["identity", "single", "asset", "social"],
+  },
+  {
+    task: "giorno_lancio",
+    phase: "lancio",
+    pull: ["timeline", "social", "press", "identity", "single"],
+  },
+];
+
+export const DEFAULT_PIECE_CELLS: PieceCellKind[] = [
   "meta",
   "concept",
   "lyrics",
@@ -263,5 +370,4 @@ export const DEFAULT_PIECE_CELLS: CellKind[] = [
   "open_questions",
 ];
 
-/** Nessuna decisione locked all'avvio. */
-export const INITIAL_DECISIONS: EmergentDecision[] = [];
+export const INITIAL_DECISIONS: never[] = [];

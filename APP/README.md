@@ -1,19 +1,28 @@
 # Incubatore
 
-Banco vuoto per **completare un lavoro musicale che ancora non esiste come oggetto**.
+Un **casellario vuoto** che raduna i pezzi di un lavoro musicale — dalla prima bozza al lancio pubblicitario — e te li **rimette in mano quando servono**.
 
-All’apertura non c’è un album, non ci sono tracce, non c’è un genere, non c’è un titolo. Non esistono 15 scaffali: il numero delle tracce **non è noto** alla creazione. Nomi, argomenti, epoche, personaggi arrivano solo da ciò che inserisci e confermi.
+All’apertura non c’è un album, non ci sono tracce, non c’è un genere. Non esistono 15 scaffali di brani. Esiste una **spina di lavoro** vuota: raccolta → creazione → prodotto → identità → social → stampa → lancio → ricontatti.
 
-The Distance (Room, ReNew, Dadej, π…) è **un** lavoro, irripetibile. Può entrare nell’incubatore come materiale. Non è lo scheletro dell’app.
+The Distance è un lavoro che ci può entrare. Non è l’app.
 
 | File | Contenuto |
 |---|---|
-| [`PIANO.md`](PIANO.md) | Spec: incubatore vuoto, nascita delle caselle, stack, AI, UI, flussi |
-| [`../docs/SPEC-CORE-LOOP.md`](../docs/SPEC-CORE-LOOP.md) | Stati, classifier, walkthrough, write-back |
-| [`UI.md`](UI.md) | Wireframe pagina per pagina (stato vuoto e stato dopo l’ingest) |
-| [`schema.ts`](schema.ts) | Contratto di dominio — nessuna costante di un album |
-| [`esempio-the-distance.json`](esempio-the-distance.json) | Cosa *emergerebbe* importando questo repo — non il default |
+| [`PIANO.md`](PIANO.md) | Spec completa |
+| [`../docs/SPEC-CORE-LOOP.md`](../docs/SPEC-CORE-LOOP.md) | Stati, incasellamento, timeline, stampa |
+| [`UI.md`](UI.md) | Wireframe |
+| [`schema.ts`](schema.ts) | Contratto |
+| [`esempio-the-distance.json`](esempio-the-distance.json) | Solo esempio di import |
+
+## Quattro mestieri in uno
+
+| Ruolo | Fa |
+|---|---|
+| **Incubatore** | Tiene il lavoro vivo, ancora informe |
+| **Casellario** | Incasella e *mostra il contenuto giusto nel momento giusto* |
+| **Produttore** | Buchi creativi, singoli, ordine, credits, scadenze |
+| **Ufficio stampa** | Chi contattare, mail, tempistiche, ricontatti, social pack |
 
 ## Loop
 
-**Inbox → la app propone di *creare* o *riempire* una casella → confermi → lo scaffale cresce → genera solo i buchi del materiale approvato.**
+**Inbox → casella (crea o riempi) → conferma → timeline → al momento giusto ti mostra i pezzi e i buchi.**

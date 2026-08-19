@@ -1,263 +1,174 @@
 # Incubatore — spec del loop (CORE)
 
-**Versione:** 2.0 (incubatore vuoto)  
-**Stato:** implementabile
-
-Piano d’insieme: [`../APP/PIANO.md`](../APP/PIANO.md). Contratto tipi: [`../APP/schema.ts`](../APP/schema.ts).
+**Versione:** 3.0  
+Piano: [`../APP/PIANO.md`](../APP/PIANO.md) · tipi: [`../APP/schema.ts`](../APP/schema.ts)
 
 Loop:
 
-> **INGEST** frammenti → **INCASELLA** creando o riempiendo caselle che prima non esistevano → **GENERA** solo i buchi del materiale approvato.
+> **INGEST** → **INCASELLA** (crea o riempi) → **MOSTRA QUANDO SERVE** → **BUCHI** sulla spina creazione→lancio → **GENERA** solo il mancante.
 
-All’avvio non esiste uno scaffale di N tracce. N, i nomi, il genere, gli argomenti sono sconosciuti.
+Contenuto album: sconosciuto.  
+Programma di mestiere: 8 fasi vuote.
 
 ---
 
-## 0. Oggetti
+## 0. Vietato nel core
 
-| Oggetto | Nome UI | Ruolo |
+- Seed di N brani, generi, temi, media list, calendari social pieni
+- Inventare giornalisti, date, o “ti servono 30 reel”
+- System prompt The Distance
+- Silent-apply
+- Invio automatico mail alle redazioni (v1: bozza + reminder a te)
+
+The Distance: solo adapter di import, opzionale.
+
+---
+
+## 1. Lifecycle
+
+```
+empty → emerging → drafting → launching → following
+```
+
+`empty`: 0 pezzi, 0 outreach, launchDate null. Fasi visibili come domande.  
+`launching`: esiste almeno un evento dated in fase lancio o un SinglePlan dated.  
+`following`: almeno un outreach `sent`/`waiting`.
+
+`work.reset` → empty.
+
+---
+
+## 2. Inbox e classifier
+
+Stati invariati: `received → … → accepted` solo con click.
+
+Target nuovi: `new_asset`, `contact`, `outreach`, `social_item`, `timeline`, `single`.
+
+Passo A forma: mime, “@”, “oggetto:”, vcard, numeri “6 storie”.  
+Passo B match su oggetti *esistenti*.  
+Passo C LLM structured se serve.
+
+Due PNG uguali: una può essere cover e l’altra post — disambiguare.
+
+---
+
+## 3. Librarian (`context.pull`)
+
+Input: `task` + `phase` + workId.  
+Output: `{ have: Slot[], holes: MethodHole[] }`  
+Usa `SHOW_WHEN_NEEDED`. Non genera testo. Non riempie.
+
+UI destra = questo output.
+
+---
+
+## 4. Buchi di metodo
+
+Lista in `METHOD_HOLES`. Un buco è `open` | `resolved` | `accepted_na`.
+
+Report `/holes`:
+
+```
+creazione: 1 pezzo senza lyrics
+prodotto:  singoli?
+social:    conteggi non decisi
+stampa:    0 contatti
+lancio:    data?
+```
+
+Nessuna riga “mancano 15 tracce”.
+
+---
+
+## 5. Timeline
+
+Ogni fase ha eventi 0…N.  
+`timeline.proposeBackward(launchDate)`:
+
+- non gira senza pezzi **o** senza conferma “anche senza pezzi, solo stampa” (flag tuo);
+- propone eventi e `waitDays` come *draft*;
+- non crea 20 post: crea 1 evento “pianificare social” se i conteggi mancano.
+
+Dipendenze: pitch dopo identità minima (bio o one-liner o tu accetti eccezione).
+
+---
+
+## 6. Outreach
+
+```
+draft → approved → sent → waiting → done
+                 ↘ cancelled
+waiting + now > sentAt+waitDays → due (fase ricontatti)
+```
+
+Follow-up è un nuovo `Outreach` `kind=follow_up`, parent = first_touch.
+
+---
+
+## 7. Generazione
+
+Oltre ai testi pezzo:
+
+| Job | Pack minimo | Altrimenti |
 |---|---|---|
-| App | **Incubatore** | Superficie |
-| Work | **Lavoro** | Un’incubazione. Title/genre nullable |
-| Piece | **Pezzo** | Brano o frammento nato da conferma. Title nullable |
-| Cell | **Cella** | Faccia di un pezzo o del lavoro |
-| Inbox | **Inbox** | Arrivo, mai silent-apply |
-| Decision | **Decisione** | Pin emergente, lista iniziale `[]` |
-| Compilatore | **Genera** | Riempie celle empty, sotto pack runtime |
+| `single_proposal` | ≥1 piece | refuse |
+| `bio` / `epk` / `one_liner` | ≥1 piece o note identità | refuse o minimale + buchi |
+| `pitch_email` | contatto + (bio o one-liner o pezzo) | buchi elencati |
+| `social_plan` | numeri decisi o chiedili | non inventa conteggi |
+| `social_copy` | piano o item + asset | refuse se 0 numeri e 0 item |
+| `timeline_proposal` | launchDate o la chiede | — |
+| `missing_report` | work corrente | sempre ok |
 
-### 0.1 Vietato nel core
+---
 
-| Vietato | Perché |
+## 8. Walkthrough
+
+**A — vuoto.** Timeline tutta buchi. Inbox una foto. Asset `image`, `needs_human` cover vs social. Materiale sì, pezzo no.
+
+**B — creazione.** Due testi → due pezzi. Produttore: incompleti? singoli? Social/stampa ancora domande.
+
+**C — lancio.** Singolo + data. Proposta a ritroso. Tu: 4 storie, 2 post, 3 mail. Nascono slot. Librarian sul pitch tira bio se c’è.
+
+**D — ricontatto.** Waiting scaduto. Bozza follow-up, niente “sono sicuri che esce su Rumore”.
+
+**E — import The Distance.** Pezzi proposti dai file. Singoli/stampa/social restano buchi.
+
+---
+
+## 9. Write-back
+
+```
+WORK.md
+TIMELINE.md
+PIECES/…
+IDENTITY.md
+SOCIAL.md
+PRESS/contacts.md
+PRESS/outreach/…
+```
+
+Adapter thedistance solo su `PIECES` se lo attivi.
+
+---
+
+## 10. v1
+
+1. Inbox + famiglie + 8 fasi + holes.report  
+2. Librarian  
+3. Singoli + outreach stati + reminder  
+4. proposeBackward  
+5. Generate pitch/bio/copy/lyrics sul pack  
+6. Export cartella / eml  
+
+---
+
+## 11. Copy
+
+| Dove | Testo |
 |---|---|
-| Seed di 9 / 15 / 16 cassetti | Il totale non è noto alla creazione |
-| Enum di epoche, atti, generi, personaggi | Non sono predeterminati |
-| System prompt con The Distance / π / Cassandra | È un lavoro, non il prodotto |
-| Creare pezzi in silent-apply | Solo conferma umana |
-| Generare un album da un prompt a incubatore vuoto | Non c’è materiale da cui essere coerenti |
-| Linter “mancano le 15” | Nessun tetto nel codice |
-
-### 0.2 The Distance
-
-Fuori dal core. Se importi *quel* repo, un **adapter** opzionale riconosce markdown `ALBUM/nn-slug.md` e propone pezzi. Le decisioni in `RICONCILIAZIONE.md` arrivano come `proposed`, non locked.
-
----
-
-## 1. Lifecycle del lavoro
-
-```
-uninitialized
-    │
-    ▼
-empty                  ← 0 pezzi, title null, decisions []
-    │
-    ├─ inbox.accept che crea pezzo ──► emerging
-    ├─ piece.create ─────────────────► emerging
-    └─ work.reset ───────────────────► empty
-
-emerging ── (almeno 1 pezzo, struttura ancora fluida) ──► drafting
-drafting ── (tu locki “lavoro chiuso” o criterio che hai scelto) ──► closing
-```
-
-Non esiste `empty_shelf_seeded` con cassetti precotti.  
-Non esiste `first_run_chooser` “Apri The Distance”.
-
-Schermo empty: due CTA, vedi [`../APP/UI.md`](../APP/UI.md).
-
----
-
-## 2. Inbox
-
-Stati: `received → classifying → proposed | needs_human | conflict → accepted | rejected`.
-
-`proposed → accepted` richiede click.
-
-### 2.1 Target
-
-Oltre a riempire una cella esistente:
-
-- `new_piece` — crea Piece + cella;
-- `decision` nuova;
-- `research` nuovo tema;
-- `uncertain`.
-
-### 2.2 Classifier
-
-**Passo A — forma (deterministico)**  
-Filename, mime, tag `[Verse]`, heading `#`, durata audio, hash duplicato.
-
-**Passo B — match sull’incubazione corrente**  
-Similarità con titoli/testi dei pezzi *esistenti*. Se 0 pezzi, B non trova nulla.
-
-**Passo C — LLM structured output** (se A+B non bastano)
-
-```json
-{
-  "targets": [
-    {
-      "scope": "new_piece",
-      "suggestedTitle": null,
-      "cell": "lyrics",
-      "confidence": 0.7,
-      "createsPiece": true,
-      "reasons": ["strofe, nessun pezzo in incubazione"]
-    }
-  ],
-  "needsHuman": false
-}
-```
-
-Niente gazetteer `Room→09`.  
-Se un heading è “Room Pt.2” e esiste già un pezzo “Room Pt.1”, può proporre *altro pezzo* o *stessa famiglia* — `needs_human`.
-
-### 2.3 Conferma
-
-- **Crea e incasella** — `createsPiece=true`
-- **Incasella nel pezzo…** — picker dei pezzi esistenti (lista corta, può essere 0)
-- **È una decisione** — apre form domanda/scelta
-- **Note di lavoro** — va in `work.notes` / archive
-- **Scarta**
-
-Batch: “crea un pezzo per ogni proposta > 0.85 con createsPiece”.  
-Mai overwrite di cella `approved` senza conflict UI.
-
----
-
-## 3. Completeness
-
-Non esiste `album_ready = 15 ready`.
-
-| Oggetto | “Fatto” default (cambiabile) |
-|---|---|
-| Cella | `approved` o `not_applicable` o `locked` |
-| Pezzo | le celle che *tu* non hai nascosto: almeno lyrics **o** audio, più concept se il pezzo non è strumentale |
-| Lavoro | decisione emergente `work_closed` **oppure** (debole) tutti i pezzi non archiviati `ready` |
-
-Un pezzo può essere ready da solo in un lavoro di un solo brano.  
-Un lavoro può restare `emerging` con 20 pezzi se non hai deciso che è un album.
-
----
-
-## 4. Generazione
-
-Permessa solo se:
-
-- il target esiste (pezzo/cella) **oppure** il job è `propose_structure` (output → inbox);
-- la cella è `empty` | `draft` | `generated` (rigenera);
-- la cella non è `not_applicable`;
-- lo Steward non refuse sul pack.
-
-Pack = decisioni locked (forse zero) + approved del target + approved dei link + style bible se c’è.  
-Se pack quasi vuoto: lyricist produce minimale o chiede; non inventa un concept album.
-
-Refuse di default (codice, non lore):
-
-- “crea 12 tracce” senza job `propose_structure`;
-- scrivere in una cella N/A;
-- contraddire una decisione locked *di questa incubazione*.
-
-I refuse tipo “niente lyrics su Dadej” esistono solo se quella decisione è locked qui.
-
----
-
-## 5. Conflitti
-
-Nuovo insert vs cella approved → ConflictReview: tieni approved / nuova versione / archivia vecchio.  
-Nuovo insert vs decisione locked → tieni lock / apri mozione (due conferme).  
-Due proposte `new_piece` che sembrano lo stesso brano → disambiguazione.
-
-Nessun conflitto “H1 dice 09 ma PLAYLIST dice 15” finché entrambi i testi non sono slottati.
-
----
-
-## 6. Versioning
-
-Come v1: linea ingested/promoted vs draft.  
-Promote non è silent.  
-Write-back è sessione esplicita.
-
----
-
-## 7. Walkthrough A — incubatore vuoto, tre scarti
-
-1. Empty.  
-2. Incolli 8 righe senza titolo → `new_piece` lyrics. Confermi. 1 pezzo untitled.  
-3. Drop `demo.wav` → match basso → `new_piece` audio **o** stesso pezzo. Scegli stesso.  
-4. Drop PNG → artwork di quel pezzo.  
-5. Genera: può pulire lyrics e fare un style prompt da *quel* wav+testo. Non propone “traccia 02”.
-
----
-
-## 8. Walkthrough B — import The Distance (adapter)
-
-1. Empty. Import repo.  
-2. Inbox: ~20 item.  
-3. Accetti in lotto i markdown `ALBUM/*` come pezzi (tanti quanti i file).  
-4. Decisioni da RICONCILIAZIONE restano `proposed` finché non le locki.  
-5. Linter (dopo lo slot): drift H1, ReNew 1984 vs 1983, ART assenti, testi vuoti *sui pezzi creati*.  
-6. Generate Room Pt.2 solo se quel pezzo esiste e le decisioni che vietano spoiler le hai lockate. Altrimenti il pack non contiene quel divieto — e tu puoi lockarlo prima.
-
-Dettaglio file-per-file di *quel* repo: [`../APP/esempio-the-distance.json`](../APP/esempio-the-distance.json). Non è lo skeleton dell’app.
-
----
-
-## 9. Walkthrough C — “non so quante tracce”
-
-Materiale: un ODT con 6 heading e 2 paragrafi di lore.  
-`propose_structure` → 6 `new_piece` + 1 concept di lavoro.  
-Accetti 4 heading, scarti 2, il lore va in `work.concept`.  
-Scaffale: 4 pezzi. Domani ne aggiungi un quinto da un vocal.
-
----
-
-## 10. Write-back
-
-```
-WORK.md                 # title se c’è, concept, decisioni locked
-PIECES/{index?}-{slug-or-id}.md
-```
-
-Sezioni di pezzo: le celle non empty. Ordine del kit default, poi custom.
-
-Adapter The Distance (opzionale): se `work.exportAdapter = "thedistance-v3"` *scelto da te*, scrive `ALBUM/nn-slug.md` + PLAYLIST. Il core non lo assume.
-
-Commit: preview hunk, mai `git add -A` cieco.
-
----
-
-## 11. Superficie v1
-
-1. Empty screen + inbox + `piece.create`  
-2. Accept che crea pezzo  
-3. Celle + edit umano  
-4. Classifier forma + match  
-5. Generate lyrics/analisi/prompt sul pack runtime  
-6. Decisioni emergenti + lint interno  
-7. Export markdown  
-8. Adapter import The Distance (dopo, non nel first-run)
-
-Chat libera fuori dal loop. Sessione solo con comandi e @celle.
-
----
-
-## 12. Stati — quick ref
-
-```
-work:     empty | emerging | drafting | closing
-piece:    born | in_progress | ready | archived
-cell:     empty | partial | draft | slotted | generated | approved | locked | not_applicable
-inbox:    received | classifying | proposed | needs_human | conflict | accepted | rejected | archived
-job:      queued | running | needs_review | approved | rejected | failed
-decision: proposed | locked | superseded
-```
-
----
-
-## 13. Copy UI (IT)
-
-| Dove | Copy |
-|---|---|
-| Empty | Non c’è un album. Non ci sono tracce. Non c’è un genere. |
-| Crea pezzo da inbox | Crea pezzo e mettici questo |
-| Genera su pack vuoto | C’è troppo poco di approvato. Genero comunque in forma minimale, o aspetti? |
-| Sessione senza materiale | Inserisci qualcosa prima. |
-| Reset | Nuova incubazione: si torna a zero. Questo lavoro non fa da stampo al prossimo. |
+| Empty | Non c’è un album. Non c’è un lancio. |
+| Singoli 0 pezzi | Prima serve almeno un pezzo. |
+| Pitch senza bio | Manca la bio: è un buco, non la invento. |
+| Social senza numeri | Quante storie, post, foto? |
+| Media list vuota | Chi vuoi contattare? Inserisci i nomi. |
+| Reset | Nuova incubazione: casellario a zero. |
