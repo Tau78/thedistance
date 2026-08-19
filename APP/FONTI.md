@@ -72,6 +72,8 @@ Non una sola estetica: **la schermata prende il pattern più chiaro di quel mest
 | **EPK** | ReleaseLoop pagina pubblica | Un URL, non un PDF perso. |
 | **Sessione** | Orphiq “tessuta nel piano” | Chip contesto; “aggiungi come task −14”; no chat carriera. |
 | **Look** | Banco scuro, tabelle dense (Airtable/ReleaseLoop), una accent (cyan) | Non neon Harment; non marketing Orphiq. |
+| **Scheda pezzo / 4 tab / alert buchi** | Mockup Gemini (DISCUS) | Stepper, badge, box AZIONI NECESSARIE — [`UI.md`](UI.md) |
+| **Bit mancanti + cover IA + log** | Mockup Gemini tavola 3 | WatchBit opzionale; genera cover; activity log solo. No team/chat/grafici v1 |
 
 Mobile: bottom bar ReleaseLoop-like `Oggi | Inbox | Piano | Altro`. Countdown Harment in alto su Oggi se c’è una data.
 

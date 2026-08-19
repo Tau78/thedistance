@@ -569,3 +569,22 @@ export const DEFAULT_PIECE_CELLS: PieceCellKind[] = [
 ];
 
 export const INITIAL_DECISIONS: never[] = [];
+
+/** Bit che l'incubazione vuole tenere d'occhio (scheda "definisci i mancanti"). Vuoto = tutti i METHOD_HOLES. */
+export type WatchBit =
+  | "audio"
+  | "lyrics"
+  | "cover"
+  | "bio"
+  | "press_kit"
+  | "social_reel"
+  | "social_feed"
+  | "credits";
+
+export interface ActivityEvent {
+  id: string;
+  workId: string;
+  at: string;
+  text: string;
+  actor: "you" | "ai" | "import";
+}

@@ -284,3 +284,28 @@ Mix ●  Rec ●  Arr ○  Voci ○
 ```
 
 Empty: stepper su Idea, badge tutti ○, box *Nessun buco detto — butta materiale o aggiungi “manca…”*.
+
+### Tavola 3 — setup, cover IA, team, report
+
+| Pattern | Giudizio |
+|---|---|
+| **Definisci i bit mancanti** (tracce, testi, copertina, bio, reel, feed) | Sì, come *filtro di attenzione*, non come setup obbligatorio day-1. Checklist spuntabile: “voglio che mi navi su questi tipi”. Non crea i brani. |
+| **Genera cover** prompt + anteprima + stile | Sì: è il nostro Art Director. “Salva” incasella; niente “Invia” a un team inesistente. |
+| **Membri + chat** | No in v1. Una incubazione, un utente. |
+| **Attività recenti** | Sì, anche da soli: “hai slottato un wav”, “l’AI ha proposto un pitch”. Senza avatars finti. |
+| **Progress 45%** | Solo se calcolato (celle + content line). Altrimenti niente barra. |
+| **Grafici Spotify / IG** | No in v1. Fase post-lancio = log e export, non analytics da dashboard. Report = markdown/PDF dei buchi chiusi e delle outreach, non ascolti. |
+
+Schermata bit (opzionale, da Impostazioni o da “Guarda i buchi”):
+
+```
+Cosa vuoi che ti segnali
+
+☐ Tracce audio    ☐ Testi    ☐ Copertina
+☐ Bio / press kit ☐ Reel     ☐ Feed
+☐ Credits
+
+[ Salva ]
+```
+
+Tutto spento = niente nags. Tutto acceso = METHOD_HOLES interi. Non è “configura l’album ISTORTOFIA”.

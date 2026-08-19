@@ -396,6 +396,7 @@ Oltre a work/inbox/piece/generate:
 `contacts.*` · `outreach.*` · `context.pull(task)`  
 `piece.setProduction` · `missing.add` · `missing.resolve`  
 `contentLine.set` · `contentLine.tick` · `emailTemplate.copy`  
+`work.setWatchBits` · `activity.list`  
 `export.epk` · `export.timeline` · `export.eml` · `export.releasePdf`
 
 ---
