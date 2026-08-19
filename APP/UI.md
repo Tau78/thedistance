@@ -141,27 +141,45 @@ Tutti vuoti. Generate bio = pack dai pezzi approved, o refuse.
 
 ---
 
-## Social
+## Social / Content Matrix (`/social`)
 
-Alto: **numeri che hai deciso** (o “non decisi”).
+Alto, conteggio dinamico:
 
 ```
-Per drop “—” :  storie [  ]  post [  ]  foto [  ]
+Singoli  1 / 4 pezzi
+Contenuti  2 / 10 caselle   ← somma planned vs done
 ```
 
-Sotto: slot nati da quei numeri, stato empty/draft/scheduled.  
-Librarian a destra: cover e pezzo singolo, se ci sono.
+Blocco singoli: tabella pezzi, toggle, onda, data.
+
+Blocco piano (spuntabile):
+
+```
+☐☐☐  Reel di backstage          0/3   BUCO
+☐☐☐☐☐  Storie di annuncio       0/5   BUCO
+☐  Photoshoot ufficiale         0/1   BUCO
+☐  Video ufficiale              0/1   BUCO
+[+ linea]  [cambia numeri]
+```
+
+Casella vuota = buco in timeline. Librarian: cover / singolo se ci sono.
 
 ---
 
-## Stampa (CRM)
+## Stampa / CRM (`/press`)
 
-Filtri: giornalista · blog · playlist curator · radio · altro.  
-Colonna **Rubrica** | **Mail / solleciti**.
+Raggruppa: Riviste | Blog | Radio | Playlist curator.
 
-Ogni contatto: testata, tipo, mail, `ultimo esito`, badge “già supportato”.  
-Thread: bozza → inviata → waiting → sollecito dovuto.  
-Composer pitch: a destra bio/cover/singoli; buchi, non biografie inventate.
+```
+Testata        E-mail              Stato
+────────────   ─────────────────   ─────────────────────
+(vuoto)                            Da contattare
+```
+
+Stati: Da contattare · E-mail inviata · In attesa di risposta · Recensione confermata.
+
+Pannello **Template:** Cartella stampa · Pitch · Follow-up → [ Copia ].  
+Se il pack ha buchi, banner *manca bio/cover* prima del testo.
 
 ---
 

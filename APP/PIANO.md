@@ -137,7 +137,7 @@ Artisti e manager oggi tengono il lancio su **Notion o Airtable** con un modello
 
 Non apriamo 12 brani finti. Apriamo un **database con le colonne giuste** e 0 record. Ogni pezzo che confermi diventa una riga + una scheda.
 
-Le schede del modello (questa è la prima; le altre — lancio, stampa, social — restano le famiglie già definite):
+Le schede del modello:
 
 ### Scheda 1 — Casellario album (tracciamento brani)
 
@@ -164,6 +164,57 @@ Regole:
 
 Empty: colonne visibili, zero righe, CTA *Inserisci un brano* / *Nuovo pezzo*.
 
+### Scheda 2 — Calendario editoriale e social (Content Matrix)
+
+Due sotto-tabelle, conteggio **dinamico** (si aggiorna quando spunti o cambi i numeri).
+
+**Singoli estratti** — quali e quanti brani diventano singoli.
+
+| Pezzo | È singolo | Onda | Data |
+|---|---|---|---|
+| (righe = pezzi esistenti) | sì/no | 1, 2… | |
+
+Header: `Singoli: 2 su 7 pezzi`. Zero pezzi → niente numeri inventati, copy: *Prima servono i brani.*
+
+**Piano contenuti** — lista spuntabile. Default suggeriti (editabili, non legge):
+
+| Linea | Pianificati | Fatti | Buco |
+|---|---|---|---|
+| Reel di backstage | 3 | 0 | sì |
+| Storie di annuncio | 5 | 0 | sì |
+| Photoshoot ufficiale | 1 | 0 | sì |
+| Video ufficiale | 1 | 0 | sì |
+
+Ogni unità è una casella. Non spuntata = **buco** in timeline, in librarian e nel task “teaser social” (`blocked_missing`).  
+Puoi cambiare i 3/5/1/1 o aggiungere “4 lyric card”. Il conteggio ricalcola: `Reel backstage 1/3`.  
+Spuntare richiede un allegato o un `SocialItem`, oppure eccezione (“fatto fuori dall’app”).
+
+### Scheda 3 — Ufficio stampa e CRM
+
+Database contatti, categorie fisse di colonna:
+
+**Riviste · Blog · Radio · Playlist curator** (più Altro se serve).
+
+| Campo | Valori |
+|---|---|
+| Nome / testata | |
+| E-mail | |
+| Stato | **Da contattare → E-mail inviata → In attesa di risposta → Recensione confermata** |
+| Note / ultimo esito | |
+
+Vista raggruppata per categoria. 0 righe all’avvio.
+
+**Template e-mail** (bozze da **copia e incolla**, non invio automatico):
+
+- Cartella stampa / EPK (pack: bio, cover, singoli, link — o buchi)
+- Pitch
+- Follow-up / sollecito
+
+Placeholder `{{title}} {{one_liner}} {{link}} {{contact_name}}`.  
+Aprire un contatto “Da contattare” + Copia pitch: se manca la bio, mostri il buco, non inventi.
+
+Cambio stato: copiare/segnalare inviata → `email_sent` → dopo `waitDays` → `waiting_reply` in cima ai ricontatti. `review_confirmed` a mano.
+
 ---
 
 ## 5. Produttore — buchi di creazione e di prodotto
@@ -181,33 +232,9 @@ Non chiede “quante tracce sarà l’album” come setup. Se hai 3 pezzi, lavor
 
 ---
 
-## 6. Ufficio stampa e social
+## 6. Social e stampa
 
-### Social
-
-Buchi di metodo:
-
-- Hai i contenuti social?
-- Quante **storie**, quanti **post**, quante **foto** per il primo drop / per il lancio?
-- Su quali canali?
-
-Finché non decidi i numeri, restano domande. Puoi rispondere “6 storie, 3 post, 4 foto sul primo singolo” → nascono *slot vuoti* da riempire (inbox o genera copy).  
-L’AI non decide da sola “ti servono 30 reel”.
-
-### Stampa
-
-Buchi:
-
-- Chi vuoi contattare? (nome, testata, mail — anche incompleti)
-- Mail a riviste/blog: scritte? (pitch)
-- Tempistiche: quando il primo tocco, dopo quanti giorni il ricontatto?
-
-Ogni `Outreach` ha `dueAt`, `waitDays`, stati `draft → approved → sent → waiting → done`.  
-Quando `waiting` scade, la fase **ricontatti** la tira in cima.
-
-`pitch_email` / `follow_up_email`: pack = identità + singoli + asset approved + scheda contatto. Se manca la bio, il buco è la bio, non un’invenzione di biografia.
-
-Niente scraping di redazioni. I contatti li inserisci tu (o un foglio). L’AI può *organizzare* e *ricordare*, non inventare giornalisti.
+Vedi schede 2 e 3 in §4b. Outreach di sistema (`draft → sent → waiting`) resta sotto il CRM: il campo che vedi in tabella è `promoStatus` (Da contattare → Recensione confermata). Niente scraping di redazioni.
 
 ---
 
@@ -367,6 +394,7 @@ Oltre a work/inbox/piece/generate:
 `singles.set` · `social.plan` · `social.item`  
 `contacts.*` · `outreach.*` · `context.pull(task)`  
 `piece.setProduction` · `missing.add` · `missing.resolve`  
+`contentLine.set` · `contentLine.tick` · `emailTemplate.copy`  
 `export.epk` · `export.timeline` · `export.eml` · `export.releasePdf`
 
 ---

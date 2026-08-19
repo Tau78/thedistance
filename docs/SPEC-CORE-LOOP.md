@@ -171,6 +171,18 @@ Inbox wav → proposta `demo`. Testo senza audio → `writing` o `idea`.
 
 Celle `lyrics`, `chords`, allegati audio (N file per pezzo: demo/mix/master).
 
+### Scheda 2 — Content matrix
+
+`ContentLine`: `planned` / `done`. Default: 3 reel backstage, 5 storie annuncio, 1 photoshoot, 1 video ufficiale.  
+`done < planned` ⇒ buco. Tick solo con `SocialItem`/asset o eccezione.  
+Singoli: conteggio `SinglePlan` sui pezzi esistenti.
+
+### Scheda 3 — CRM
+
+`Contact.kind`: magazine | blog | radio | playlist_curator.  
+`promoStatus`: `to_contact` → `email_sent` → `waiting_reply` → `review_confirmed`.  
+`EmailTemplate` press_kit / pitch / follow_up: copia, non SMTP. Placeholder. Refuse testo se pack identità vuoto (mostra buchi).
+
 ---
 
 ## 10. v1

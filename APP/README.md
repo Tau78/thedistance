@@ -2,7 +2,7 @@
 
 Un **casellario vuoto** che raduna i pezzi di un lavoro musicale — dalla prima bozza al lancio pubblicitario — e te li **rimette in mano quando servono**.
 
-All’apertura non c’è un album, non ci sono tracce, non c’è un genere. Non esistono 15 scaffali di brani. Esiste un **template da centro di controllo** (come Notion/Airtable “Music Release”) con le *colonne* già incasellate e **0 righe**: raccolta → creazione → prodotto → identità → social → stampa → lancio → ricontatti.
+All’apertura non c’è un album, non ci sono tracce, non c’è un genere. Non esistono 15 scaffali di brani. Esiste un **template da centro di controllo** (Notion/Airtable “Music Release”) con le *colonne* già incasellate e **0 righe**: casellario brani, content matrix, CRM stampa.
 
 The Distance è un lavoro che ci può entrare. Non è l’app.
 

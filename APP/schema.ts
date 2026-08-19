@@ -148,9 +148,53 @@ export type AssetKind =
   | "lyric_card"
   | "other";
 
-export type SocialFormat = "story" | "post" | "reel" | "photo" | "carousel" | "other";
+export type SocialFormat =
+  | "story"
+  | "post"
+  | "reel"
+  | "photo"
+  | "carousel"
+  | "photoshoot"
+  | "official_video"
+  | "other";
 
 export type OutreachKind = "first_touch" | "follow_up" | "thank_you" | "promo" | "other";
+
+/** Stato del contatto in promozione (scheda CRM). */
+export type ContactPromoStatus =
+  | "to_contact"
+  | "email_sent"
+  | "waiting_reply"
+  | "review_confirmed";
+
+export interface ContentLine {
+  id: string;
+  workId: string;
+  releaseId: string | null;
+  format: SocialFormat;
+  label: string;
+  planned: number;
+  done: number;
+  /** Se done < planned, è un buco visibile. */
+}
+
+/** Righe suggerite del piano contenuti (editabili, non obbligatorie). */
+export const CONTENT_LINE_DEFAULTS: Omit<ContentLine, "id" | "workId" | "releaseId" | "done">[] =
+  [
+    { format: "reel", label: "Reel di backstage", planned: 3 },
+    { format: "story", label: "Storie di annuncio", planned: 5 },
+    { format: "photoshoot", label: "Photoshoot ufficiale", planned: 1 },
+    { format: "official_video", label: "Video ufficiale", planned: 1 },
+  ];
+
+export interface EmailTemplate {
+  id: string;
+  workId: string;
+  kind: "press_kit" | "pitch" | "follow_up" | "custom";
+  title: string;
+  body: string;
+  /** Placeholders: {{title}} {{one_liner}} {{link}} {{contact_name}} */
+}
 
 export type SlotTarget =
   | { scope: "work"; cell: WorkCellKind }
@@ -162,6 +206,7 @@ export type SlotTarget =
   | { scope: "single"; pieceId?: string }
   | { scope: "identity"; field: "bio" | "artist" | "name" | "photo" | "logo" }
   | { scope: "social_item"; itemId?: string; format?: SocialFormat }
+  | { scope: "content_line"; lineId?: string }
   | { scope: "contact"; contactId?: string }
   | { scope: "outreach"; outreachId?: string }
   | { scope: "timeline"; eventId?: string; phase?: PhaseId }
@@ -288,10 +333,11 @@ export interface SocialItem {
 }
 
 export type ContactKind =
-  | "journalist"
+  | "magazine"
   | "blog"
-  | "playlist_curator"
   | "radio"
+  | "playlist_curator"
+  | "journalist"
   | "influencer"
   | "distributor"
   | "other";
@@ -306,8 +352,8 @@ export interface Contact {
   outlet: string | null;
   role: string | null;
   email: string | null;
+  promoStatus: ContactPromoStatus;
   tags: string[];
-  /** ReleaseLoop: questo contatto ha già supportato un drop precedente. */
   lastOutcome: string | null;
   status: CellStatus;
 }
@@ -406,10 +452,11 @@ export const METHOD_HOLES: MethodHole[] = [
   { code: "bio", phase: "identita", question: "C'è una bio?", resolvedIf: "bio approved" },
   { code: "cover", phase: "identita", question: "C'è una cover / foto?", resolvedIf: "cover o press_photo approved" },
   { code: "epk", phase: "identita", question: "C'è un EPK / one-liner?", resolvedIf: "epk o one_liner approved" },
-  { code: "social_counts", phase: "social", question: "Quante storie, post, foto per ogni drop?", resolvedIf: "social plan approved o N/A" },
-  { code: "social_assets", phase: "social", question: "Hai i contenuti social?", resolvedIf: "conteggi pianificati coperti da item o buchi accettati" },
+  { code: "social_counts", phase: "social", question: "Quante storie, post, foto per ogni drop?", resolvedIf: "conteggi ContentLine decisi o N/A" },
+  { code: "social_assets", phase: "social", question: "Hai i contenuti social?", resolvedIf: "ogni ContentLine done≥planned o buco accettato" },
+  { code: "singles_matrix", phase: "prodotto", question: "Quali e quanti brani diventano singoli?", resolvedIf: "SinglePlan confermati o N/A" },
   { code: "press_who", phase: "stampa", question: "Chi vuoi contattare?", resolvedIf: "≥1 contact o N/A" },
-  { code: "press_emails", phase: "stampa", question: "Le mail a riviste/blog sono scritte?", resolvedIf: "outreach first_touch drafted/approved o N/A" },
+  { code: "press_emails", phase: "stampa", question: "Le mail a riviste/blog sono scritte?", resolvedIf: "template pitch + outreach o N/A" },
   { code: "press_timing", phase: "stampa", question: "Tempistiche contatti e ricontatti?", resolvedIf: "dueAt/waitDays sulle outreach" },
   { code: "launch_date", phase: "lancio", question: "Quando esce?", resolvedIf: "Release.dropDate o launchDate" },
   { code: "distributor", phase: "prodotto", question: "Il master è stato inviato al distributore nei tempi?", resolvedIf: "task distributor_upload done o N/A" },
