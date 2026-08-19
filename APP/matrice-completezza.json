@@ -1,0 +1,273 @@
+{
+  "album": "The Distance",
+  "canonVersion": "v3",
+  "readFrom": "repo files on 2026-08-19",
+  "notes": [
+    "PLAYLIST.md e i file ALBUM/ non sono allineati sui numeri interni: alcuni file usano ancora la numerazione a 9 tracce.",
+    "ART/ è referenziato ma assente da git.",
+    "Dadej non deve ricevere testo originale."
+  ],
+  "tracks": [
+    {
+      "canonNumber": 1,
+      "file": "ALBUM/01-into-the-bore.md",
+      "title": "Into the Bore (The Frantic Caller)",
+      "year": "1997",
+      "cells": {
+        "meta": "approved",
+        "concept": "approved",
+        "lyrics_en": "approved",
+        "lyrics_it": "approved",
+        "analysis": "approved",
+        "suno_lyrics": "empty",
+        "suno_style": "empty",
+        "artwork": "partial",
+        "audio_take": "empty",
+        "sample_ref": "approved",
+        "links": "partial",
+        "open_questions": "partial"
+      }
+    },
+    {
+      "canonNumber": 2,
+      "file": "ALBUM/02-jaded.md",
+      "title": "Jaded",
+      "year": "5125",
+      "cells": {
+        "meta": "approved",
+        "concept": "approved",
+        "lyrics_en": "approved",
+        "lyrics_it": "approved",
+        "analysis": "approved",
+        "suno_lyrics": "empty",
+        "suno_style": "empty",
+        "artwork": "partial",
+        "audio_take": "empty",
+        "links": "approved",
+        "open_questions": "partial"
+      }
+    },
+    {
+      "canonNumber": 3,
+      "file": "ALBUM/03-room.md",
+      "title": "Room Pt.1 (Echoes from the Void)",
+      "year": "5125",
+      "cells": {
+        "meta": "approved",
+        "concept": "approved",
+        "lyrics_en": "approved",
+        "lyrics_it": "approved",
+        "analysis": "partial",
+        "suno_lyrics": "empty",
+        "suno_style": "empty",
+        "artwork": "partial",
+        "audio_take": "empty",
+        "archive": "approved"
+      }
+    },
+    {
+      "canonNumber": 4,
+      "file": "ALBUM/04-no-sense.md",
+      "title": "No Sense (Our Only Clue)",
+      "year": "5125",
+      "cells": {
+        "meta": "approved",
+        "concept": "approved",
+        "lyrics_en": "draft",
+        "lyrics_it": "draft",
+        "analysis": "empty",
+        "suno_lyrics": "empty",
+        "suno_style": "empty",
+        "artwork": "partial"
+      }
+    },
+    {
+      "canonNumber": 5,
+      "file": "ALBUM/05-first-ripples.md",
+      "title": "First Ripples",
+      "year": "1983",
+      "cells": {
+        "meta": "approved",
+        "concept": "approved",
+        "lyrics_en": "approved",
+        "lyrics_it": "approved",
+        "suno_lyrics": "approved",
+        "suno_style": "approved",
+        "artwork": "partial",
+        "archive": "approved"
+      }
+    },
+    {
+      "canonNumber": 6,
+      "file": "ALBUM/06-then-go.md",
+      "title": "Then Go",
+      "year": "5125",
+      "cells": {
+        "meta": "approved",
+        "concept": "approved",
+        "lyrics_en": "approved",
+        "lyrics_it": "approved",
+        "suno_lyrics": "approved",
+        "suno_style": "approved",
+        "artwork": "partial",
+        "open_questions": "partial"
+      }
+    },
+    {
+      "canonNumber": 7,
+      "file": "ALBUM/07-80s.md",
+      "title": "80s (Eighties SOS)",
+      "year": "1984/5125",
+      "fileInternalNumber": 6,
+      "cells": {
+        "meta": "approved",
+        "concept": "approved",
+        "lyrics_en": "approved",
+        "lyrics_it": "approved",
+        "analysis": "approved",
+        "suno_lyrics": "empty",
+        "suno_style": "empty",
+        "artwork": "partial"
+      }
+    },
+    {
+      "canonNumber": 8,
+      "file": "ALBUM/08-dadej.md",
+      "title": "Dadej",
+      "year": "atemporale",
+      "fileInternalNumber": 7,
+      "cells": {
+        "meta": "approved",
+        "concept": "approved",
+        "lyrics_en": "not_applicable",
+        "lyrics_it": "not_applicable",
+        "suno_lyrics": "not_applicable",
+        "suno_style": "partial",
+        "audio_take": "empty",
+        "artwork": "partial",
+        "open_questions": "partial"
+      },
+      "special": "reverse of 02 Jaded — no original lyrics"
+    },
+    {
+      "canonNumber": 9,
+      "file": "ALBUM/09-room-pt2.md",
+      "title": "Room Pt.2 (The Anthem from Nowhere)",
+      "year": "1984",
+      "cells": {
+        "meta": "approved",
+        "concept": "approved",
+        "lyrics_en": "empty",
+        "lyrics_it": "empty",
+        "analysis": "empty",
+        "suno_lyrics": "empty",
+        "suno_style": "empty",
+        "artwork": "partial"
+      }
+    },
+    {
+      "canonNumber": 10,
+      "file": "ALBUM/10-the-code-within.md",
+      "title": "The Code Within",
+      "year": "1984",
+      "cells": {
+        "meta": "approved",
+        "concept": "approved",
+        "lyrics_en": "approved",
+        "lyrics_it": "approved",
+        "analysis": "approved",
+        "suno_lyrics": "approved",
+        "suno_style": "approved",
+        "artwork": "partial"
+      }
+    },
+    {
+      "canonNumber": 11,
+      "file": "ALBUM/11-renew.md",
+      "title": "ReNew (The Ark is Built)",
+      "year": "5125",
+      "fileInternalNumber": 8,
+      "cells": {
+        "meta": "partial",
+        "concept": "partial",
+        "lyrics_en": "empty",
+        "lyrics_it": "empty",
+        "analysis": "empty",
+        "suno_lyrics": "empty",
+        "suno_style": "empty",
+        "artwork": "partial",
+        "open_questions": "partial"
+      },
+      "conflicts": [
+        "File dice destinazione 1984 e Atto III; PLAYLIST/STORIA dicono 5125→1983 e Atto IV."
+      ]
+    },
+    {
+      "canonNumber": 12,
+      "file": "ALBUM/12-fifth.md",
+      "title": "Fifth (Leaving Home)",
+      "year": "5125",
+      "cells": {
+        "meta": "approved",
+        "concept": "approved",
+        "lyrics_en": "approved",
+        "lyrics_it": "approved",
+        "suno_lyrics": "approved",
+        "suno_style": "approved",
+        "artwork": "partial",
+        "audio_take": "partial",
+        "archive": "approved"
+      }
+    },
+    {
+      "canonNumber": 13,
+      "file": "ALBUM/13-voyage-through-forever.md",
+      "title": "Voyage Through Forever",
+      "year": "BH01 / 1983.14159",
+      "cells": {
+        "meta": "approved",
+        "concept": "approved",
+        "lyrics_en": "approved",
+        "lyrics_it": "approved",
+        "suno_lyrics": "approved",
+        "suno_style": "approved",
+        "artwork": "partial"
+      }
+    },
+    {
+      "canonNumber": 14,
+      "file": "ALBUM/14-the-landing.md",
+      "title": "The Landing (Knowledge Bearers)",
+      "year": "1983",
+      "cells": {
+        "meta": "approved",
+        "concept": "approved",
+        "lyrics_en": "empty",
+        "lyrics_it": "empty",
+        "analysis": "empty",
+        "suno_lyrics": "empty",
+        "suno_style": "empty",
+        "artwork": "partial",
+        "open_questions": "partial"
+      }
+    },
+    {
+      "canonNumber": 15,
+      "file": "ALBUM/15-distance-proof.md",
+      "title": "Distance Proof (We Are Them)",
+      "year": "1984",
+      "fileInternalNumber": 9,
+      "cells": {
+        "meta": "approved",
+        "concept": "approved",
+        "lyrics_en": "draft",
+        "lyrics_it": "draft",
+        "analysis": "approved",
+        "suno_lyrics": "empty",
+        "suno_style": "empty",
+        "artwork": "partial",
+        "open_questions": "partial"
+      }
+    }
+  ]
+}
