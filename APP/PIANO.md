@@ -355,7 +355,7 @@ Mail: la app **scrive e tiene** le bozze; l’invio vero può essere copia/incol
 Chrome: `senza titolo · 0 pezzi · fase: raccolta`.  
 Mobile: `Inbox | Timeline | Buchi | Altro`.
 
-[`UI.md`](UI.md).
+[`UI.md`](UI.md). Mobile: 4 tab dei mockup Gemini (Casellario / Lancio / Contenuti / PR) e box **AZIONI NECESSARIE** come modo standard di mostrare i buchi.
 
 ---
 

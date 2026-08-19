@@ -3,7 +3,7 @@
 Desktop 1440×900, mobile 390×844. Banco scuro, tabelle dense.  
 Mix per schermata: [`FONTI.md`](FONTI.md). Non copiamo un look unico.
 
-Mobile: `Oggi | Inbox | Piano | Altro`.
+Mobile: quattro tab come i mockup Gemini (DISCUS), rinominati al nostro mestiere: **Casellario · Lancio · Contenuti · PR**. Inbox e Oggi stanno dentro Casellario / Lancio, non come quinto tab.
 
 ---
 
@@ -30,8 +30,8 @@ Mobile: `Oggi | Inbox | Piano | Altro`.
 └──────────┴────────────────────────────────────────┴──────────────────┘
 ```
 
-Mobile: `Inbox | Timeline | Buchi | Altro`.  
-`ORA SERVE` è un foglio dal basso, cambia con la pagina.
+Mobile: `Casellario | Lancio | Contenuti | PR`.  
+`AZIONI NECESSARIE` (non un librarian astratto) è il blocco in cima o in fondo a ogni scheda: lista buchi + CTA contestuali.
 
 ---
 
@@ -64,7 +64,7 @@ C’è un casellario vuoto e una linea senza date.
 
 ---
 
-## Timeline (`/`)
+## Timeline (`/timeline`)
 
 ```
 RACCOLTA ── CREAZIONE ── PRODOTTO ── IDENTITÀ ── SOCIAL ── STAMPA ── LANCIO ── RICONTACTI
@@ -236,3 +236,51 @@ Pagina/URL: foto, quote, pezzi approved, mail pubbliche scelte. Bozza privata fi
 
 Chiavi, modelli, `Nuova incubazione`.  
 Promemoria ricontatti (locale / mail a te), non invio automatico alle redazioni.
+
+---
+
+## Riferimento mockup Gemini (DISCUS)
+
+Due tavole mobile, tema notte. Non copiamo il nome, gli album di esempio, né “Progetti” al plurale come identità. Copiamo i **pattern che si leggono in un colpo**.
+
+### Cosa funziona (lo adottiamo)
+
+| Pattern | Dove sta nel mockup | Da noi |
+|---|---|---|
+| **4 tab** Casellario / Lancio / Contenuti / PR | bottom bar | IA mobile definitiva |
+| **Stepper orizzontale** Idea → Demo → Studio → Master → Pronta | dettaglio traccia | `productionStatus` a pill, una evidenziata |
+| **Micro-badge** Mix / Rec / Arr / Voci rosso-verde | sotto lo stepper | mappa su MissingItem + celle; rosso = buco |
+| **Box AZIONI NECESSARIE** | alert marrone/oro in scheda | il buco *detto*, non un’icona; 2–4 CTA sotto (*Scrivi testi*, *Allega voci*, *Apri credits*) |
+| **Avviso in lista album** | “Avviso ai naviganti” + % | Casellario: progress = celle approved, non un 68% inventato; banner solo se missing `open` |
+| **Roadmap a data vera** | 11 apr Distributore, 25 apr Social… | Countdown −N *e* giorno di calendario (mix Harment + questa tavola) |
+| **Matrice X/Y + badge** | 5/8 In lavorazione, 2/5 Mancante | Content matrix: giallo/rosso/verde |
+| **Editor mail + allegati grandi** | Cartella stampa PDF, Cover JPG | Composer CRM; v1 *Copia / Condividi*, Invia dopo |
+| **Scheda contatto** log + genere + link playlist | “21 ott inviata / 23 ott confermata” | `promoStatus` + timeline interazioni + URL Spotify se slottato |
+| **PR a card per categoria** | Riviste / Blog / Radio / Playlist | griglia + stato colore |
+
+### Cosa non copiamo
+
+- App **DISCUS** e album precotti (Illusori, Ecosistema).
+- Tab **Progetti** come prodotto multi-album in v1 (una incubazione; “nuova” è in impostazioni).
+- **Invia email** come bottone primario prima dell’invio vero.
+- Percentuale progetto se non è calcolata dalle caselle.
+- CTA “Registra voci” che apre uno studio: da noi apre la cella audio o un reminder.
+
+### Scheda pezzo (mobile, da tavola 1)
+
+```
+[ titolo lavoro ]           [ nome pezzo o senza nome ]
+
+Ideazione  Demo  Studio  Master  [Pronta]
+Mix ●  Rec ●  Arr ○  Voci ○
+
+┌ AZIONI NECESSARIE ─────────────────────┐
+│ Testo ritornello 2 incompleto          │
+│ Mancano le voci. Manca credito         │
+│ compositore.                           │
+│ [ Scrivi testi ] [ Allega voci ]       │
+│ [ Apri credits ]                       │
+└────────────────────────────────────────┘
+```
+
+Empty: stepper su Idea, badge tutti ○, box *Nessun buco detto — butta materiale o aggiungi “manca…”*.
