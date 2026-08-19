@@ -187,10 +187,51 @@ Vista principale dopo l’inbox: una **linea**, non un calendario vuoto da agenz
 ```
 
 - Un evento può non avere data (solo fase + dipendenze: “pitch dopo che esiste un singolo”).
-- Quando locki `launchDate`, il produttore propone a ritroso (es. pitch −N giorni, social −7, ricontatto +7). Tu accetti i numeri. Niente default da industria imposto: sono *proposte*.
+- Quando esiste una **data di uscita**, si accende il [motore di lancio](#7b-motore-di-lancio).
 - Dipendenze: non puoi marcare “lancio fatto” se i buchi `block` della settimana lancio sono aperti — a meno di eccezione tua.
 
-Export: Gantt semplice / lista iCal / markdown `TIMELINE.md`.
+Export: Gantt / iCal / `TIMELINE.md` / PDF checklist (stile Harment).
+
+---
+
+## 7b. Motore di lancio
+
+Ispirato, per *questa* competenza, a [Orphiq](https://orphiq.com/features/music-release-planning), [ReleaseLoop](https://releaseloop.com/) e [Harment Release Aid](https://harment.co.uk/tools/release-aid/). Non li copiamo: non diventiamo un OS di carriera né un planner da 8 settimane scollegato dalla creazione.
+
+Cosa prendiamo:
+
+| Da | Meccanica |
+|---|---|
+| **Orphiq** | Inserisci la data (e il formato: single/EP/album). Il sistema **costruisce a ritroso** una campagna settimana per settimana. Se la data **si sposta, ricalcola tutto**. Finestre da industria: distributore, pitch editoriale, teaser, giorno 0, post-release. Non è una board Notion generica. |
+| **ReleaseLoop** | Checklist di release + **CRM** (giornalisti, blog, playlist curator) e stato dei **solleciti**. Chi ha già supportato. Task legati a un drop, non sparsi. |
+| **Harment Release Aid** | Countdown da drop day. Evidenzia **scadenze e contenuti ancora mancanti** *prima* che tu possa spuntare il task. Export della roadmap. |
+
+Cosa **non** prendiamo: roster multi-artista, Apollo come stratega di carriera, scraping di redazioni, “30 reel perché lo dice il template”.
+
+### Come funziona da noi
+
+1. Finché non c’è `Release.dropDate`, la timeline resta la spina a 8 fasi *senza orologio*. Creazione e casellario lavorano lo stesso.
+2. Imposti data (+ formato, se lo sai). Nascono i `ReleaseTask` da `RELEASE_TASK_TEMPLATES` (offset in giorni, editabili):
+
+   | Offset default | Task | Serve avere |
+   |---|---|---|
+   | **−56** (≈ −8 settimane) | Chiudi master, credits, metadata | audio approved, credits |
+   | **−42** | **Invia master al distributore** | master + cover + metadata |
+   | **−28** | **Pitch Spotify for Artists** + pre-save | audio, one-liner |
+   | **−14** | **E-mail stampa / blog / curator** | ≥1 contatto, bozza pitch |
+   | **−10** | Teaser social | numeri social decisi o N/A |
+   | **0** | Giorno uscita | data |
+   | **+7** | Ricontatti / solleciti | almeno una mail `sent` |
+
+   I −60 / −30 / −14 dell’esempio utente sono la stessa idea: offset da drop. I default sopra sono la pratica indie 2026 (Orphiq/Harment: pista ~8 settimane; S4A spesso chiede il brano in sistema e una finestra editoriale di settimane, non di 3 giorni). Tu puoi spostare un offset a −60/−30 senza toccare il codice.
+
+3. **Ricalcolo:** cambi la data → tutti i `dueAt = dropDate + offsetDays`. I task già `done` restano done; quelli `scheduled` si muovono; se un task cade nel passato, badge “in ritardo / rinegozia data o accetta di perdere la finestra”.
+4. **Gate Harment:** un task non si spunta se `requires` è vuoto. Stato `blocked_missing` + lista buchi (es. “manca cover”). Librarian apre le caselle giuste.
+5. **CRM ReleaseLoop:** contatti tipizzati (`journalist`, `blog`, `playlist_curator`, `radio`…). Outreach + sollecito. Campo `lastOutcome`. Nessun giornalista inventato.
+6. **Più drop:** un album può avere Release “singolo 1”, “singolo 2”, “album”. Ogni drop ha la sua timeline a ritroso. I pezzi si legano con `pieceIds`.
+7. **Venerdì DSP:** hint, non obbligo (“le editorial playlist DSP ruotano di venerdì”).
+
+Non sostituisce DistroKid / S4A: ricorda la scadenza e i file da avere in mano.
 
 ---
 
@@ -287,9 +328,10 @@ Mail inviata, `waitDays=7`. Giorno 8: fase ricontatti in cima, bozza follow-up, 
 Oltre a work/inbox/piece/generate:
 
 `timeline.list` · `timeline.proposeBackward` · `holes.report`  
+`release.setDropDate` · `release.moveDate` · `release.tick`  
 `singles.set` · `social.plan` · `social.item`  
 `contacts.*` · `outreach.*` · `context.pull(task)`  
-`export.epk` · `export.timeline` · `export.eml`
+`export.epk` · `export.timeline` · `export.eml` · `export.releasePdf`
 
 ---
 
@@ -297,8 +339,9 @@ Oltre a work/inbox/piece/generate:
 
 **A** — Inbox + casellario (pezzi, asset, contatti) + timeline 8 fasi con buchi di metodo. Zero AI.  
 **B** — Classifier + librarian (mostra quando serve).  
-**C** — Producer: report buchi, singoli, proposta timeline a ritroso.  
-**D** — Press + social: bozze mail/copy, stati sent/waiting.  
+**C** — Producer: report buchi, singoli.  
+**C2** — Motore di lancio: data → task a offset, ricalcolo, gate `blocked_missing`.  
+**D** — CRM stampa/curator + social + solleciti.  
 **E** — Generazione creativa (testi, art, pack audio) vincolata.  
 **F** — PWA, reminder ricontatti.
 

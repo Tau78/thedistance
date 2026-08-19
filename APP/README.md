@@ -26,3 +26,5 @@ The Distance è un lavoro che ci può entrare. Non è l’app.
 ## Loop
 
 **Inbox → casella (crea o riempi) → conferma → timeline → al momento giusto ti mostra i pezzi e i buchi.**
+
+Se imposti una data di uscita, il **motore di lancio** (ispirato a Orphiq / ReleaseLoop / Harment) calcola a ritroso distributore, Spotify for Artists, mail stampa, teaser e ricontatti, e blocca i task se manca il contenuto.

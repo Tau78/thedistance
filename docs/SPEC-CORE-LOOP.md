@@ -80,16 +80,24 @@ Nessuna riga “mancano 15 tracce”.
 
 ---
 
-## 5. Timeline
+## 5. Timeline e motore di lancio
 
-Ogni fase ha eventi 0…N.  
-`timeline.proposeBackward(launchDate)`:
+Ogni fase ha eventi 0…N senza data, finché non esiste un `Release`.
 
-- non gira senza pezzi **o** senza conferma “anche senza pezzi, solo stampa” (flag tuo);
-- propone eventi e `waitDays` come *draft*;
-- non crea 20 post: crea 1 evento “pianificare social” se i conteggi mancano.
+`release.setDropDate(date, format)`:
 
-Dipendenze: pitch dopo identità minima (bio o one-liner o tu accetti eccezione).
+1. crea o aggiorna `Release`;
+2. istanzia `ReleaseTask` da `RELEASE_TASK_TEMPLATES` (o dal pack già editato);
+3. `dueAt = dropDate + offsetDays`;
+4. per ogni task valuta `requires` → se manca, `blocked_missing` + `missing[]`.
+
+`release.moveDate(newDate)`: ricalcola tutti i `dueAt`. `done` resta `done`. Task con `dueAt < today` e non done → `late`.
+
+`release.tick(taskId)`: refuse se `blocked_missing`, a meno di eccezione umana.
+
+`timeline.proposeBackward` resta per eventi extra non in template.
+
+Ispirazione (solo questa competenza): Orphiq (a ritroso + ricalcolo), ReleaseLoop (CRM + solleciti), Harment (scadenze + contenuti mancanti).
 
 ---
 
@@ -116,8 +124,8 @@ Oltre ai testi pezzo:
 | `pitch_email` | contatto + (bio o one-liner o pezzo) | buchi elencati |
 | `social_plan` | numeri decisi o chiedili | non inventa conteggi |
 | `social_copy` | piano o item + asset | refuse se 0 numeri e 0 item |
-| `timeline_proposal` | launchDate o la chiede | — |
-| `missing_report` | work corrente | sempre ok |
+| `timeline_proposal` | dropDate o la chiede | — |
+| `missing_report` | work / release corrente | sempre ok; include `blocked_missing` |
 
 ---
 
@@ -127,7 +135,7 @@ Oltre ai testi pezzo:
 
 **B — creazione.** Due testi → due pezzi. Produttore: incompleti? singoli? Social/stampa ancora domande.
 
-**C — lancio.** Singolo + data. Proposta a ritroso. Tu: 4 storie, 2 post, 3 mail. Nascono slot. Librarian sul pitch tira bio se c’è.
+**C — lancio.** Imposti drop date. Nascono task −56…+7. `distributor_upload` è `blocked_missing` se manca cover. Sposti la data di 14 giorni: tutti i dueAt si ricalcolano; i done restano. Tu: 4 storie, 2 post, 3 mail. Librarian sul pitch tira bio se c’è.
 
 **D — ricontatto.** Waiting scaduto. Bozza follow-up, niente “sono sicuri che esce su Rumore”.
 

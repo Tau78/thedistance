@@ -56,11 +56,27 @@ Prossimo:
   · Hai i contenuti social?  (storie / post / foto: —)
   · Chi vuoi contattare?
 
-[ Proponi una linea a ritroso ]   (chiede una data di lancio; se manca, la chiede)
+[ Imposta data di uscita ]     [ Formato: single / EP / album / non so ]
 ```
 
-Click fase → lista buchi + oggetti già slottati in quella famiglia.  
-Niente Gantt finto con 40 post inventati.
+Con data, la stessa pagina diventa **countdown** (Orphiq/Harment):
+
+```
+Drop: ven 15 mag  ·  tra 41 giorni  ·  singolo “—”
+
+OGGI                      MANCA
+−42  Distributore         cover, credits     [ apri caselle ]
+−28  Spotify for Artists  one-liner
+−14  Mail stampa          0 contatti
+−10  Teaser social        numeri non decisi
+  0  Uscita
+ +7  Ricontatti
+
+Data spostata?  ricalcolo automatico degli offset.
+```
+
+Task `blocked_missing` = riga ambra, non spuntabile. Click → librarian.  
+Click fase senza data → solo buchi di metodo, come prima.
 
 ---
 
@@ -121,13 +137,14 @@ Librarian a destra: cover e pezzo singolo, se ci sono.
 
 ---
 
-## Stampa
+## Stampa (CRM)
 
-Due colonne: **Rubrica** | **Mail**.
+Filtri: giornalista · blog · playlist curator · radio · altro.  
+Colonna **Rubrica** | **Mail / solleciti**.
 
-Rubrica: nome, testata, mail, tag.  
-Mail: thread per contatto — bozza, inviata, waiting, da ricontattare (badge).  
-Composer pitch: a destra bio/cover/singoli; se mancano, link al buco, non testo inventato.
+Ogni contatto: testata, tipo, mail, `ultimo esito`, badge “già supportato”.  
+Thread: bozza → inviata → waiting → sollecito dovuto.  
+Composer pitch: a destra bio/cover/singoli; buchi, non biografie inventate.
 
 ---
 

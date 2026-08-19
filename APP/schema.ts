@@ -254,15 +254,77 @@ export interface SocialItem {
   status: CellStatus;
 }
 
+export type ContactKind =
+  | "journalist"
+  | "blog"
+  | "playlist_curator"
+  | "radio"
+  | "influencer"
+  | "distributor"
+  | "other";
+
+export type ReleaseFormat = "single" | "ep" | "album" | "unspecified";
+
 export interface Contact {
   id: string;
   workId: string;
+  kind: ContactKind;
   name: string | null;
   outlet: string | null;
   role: string | null;
   email: string | null;
   tags: string[];
+  /** ReleaseLoop: questo contatto ha già supportato un drop precedente. */
+  lastOutcome: string | null;
   status: CellStatus;
+}
+
+export interface Release {
+  id: string;
+  workId: string;
+  format: ReleaseFormat;
+  /** Drop day. Se cambia, ricalcolare tutti i ReleaseTask.dueAt. */
+  dropDate: string | null;
+  pieceIds: string[];
+  status: CellStatus;
+}
+
+export interface ReleaseTaskTemplate {
+  code: string;
+  /** Giorni rispetto al drop: negativi = prima, 0 = giorno, positivi = dopo. */
+  offsetDays: number;
+  title: string;
+  phase: PhaseId;
+  /** Caselle che devono esistere/essere approved, o il task resta "blocked_missing". */
+  requires: string[];
+}
+
+/**
+ * Default di mestiere 2026 (indie), ispirate a Orphiq / ReleaseLoop / Harment Release Aid.
+ * Editabili per incubazione. Non sono contenuti d'album.
+ */
+export const RELEASE_TASK_TEMPLATES: ReleaseTaskTemplate[] = [
+  { code: "lock_master", offsetDays: -56, title: "Chiudi master, credits, metadata", phase: "prodotto", requires: ["piece.audio_take", "work.credits"] },
+  { code: "lock_artwork", offsetDays: -56, title: "Chiudi cover e foto", phase: "identita", requires: ["asset.cover"] },
+  { code: "distributor_upload", offsetDays: -42, title: "Invia master e metadata al distributore", phase: "prodotto", requires: ["piece.audio_take", "asset.cover", "work.credits"] },
+  { code: "presave", offsetDays: -28, title: "Apri pre-save / pre-order", phase: "lancio", requires: ["release.dropDate"] },
+  { code: "s4a_editorial", offsetDays: -28, title: "Pitch Spotify for Artists (editoriale)", phase: "lancio", requires: ["piece.audio_take", "identity.one_liner"] },
+  { code: "press_first_touch", offsetDays: -14, title: "Invia le e-mail alla stampa e ai blog", phase: "stampa", requires: ["contact.press", "outreach.pitch"] },
+  { code: "curator_first_touch", offsetDays: -14, title: "Pitch ai playlist curator", phase: "stampa", requires: ["contact.curator"] },
+  { code: "social_teasers", offsetDays: -10, title: "Teaser social (storie/post/foto)", phase: "social", requires: ["social.plan"] },
+  { code: "release_day", offsetDays: 0, title: "Giorno di uscita: push canali + stampa", phase: "lancio", requires: ["release.dropDate"] },
+  { code: "press_followup", offsetDays: 7, title: "Ricontatti stampa / curator", phase: "ricontatti", requires: ["outreach.sent"] },
+];
+
+export interface ReleaseTask {
+  id: string;
+  releaseId: string;
+  templateCode: string;
+  title: string;
+  offsetDays: number;
+  dueAt: string | null;
+  status: CellStatus | "blocked_missing";
+  missing: string[];
 }
 
 export interface Outreach {
@@ -315,9 +377,12 @@ export const METHOD_HOLES: MethodHole[] = [
   { code: "press_who", phase: "stampa", question: "Chi vuoi contattare?", resolvedIf: "≥1 contact o N/A" },
   { code: "press_emails", phase: "stampa", question: "Le mail a riviste/blog sono scritte?", resolvedIf: "outreach first_touch drafted/approved o N/A" },
   { code: "press_timing", phase: "stampa", question: "Tempistiche contatti e ricontatti?", resolvedIf: "dueAt/waitDays sulle outreach" },
-  { code: "launch_date", phase: "lancio", question: "Quando esce?", resolvedIf: "launchDate o evento lancio dated" },
-  { code: "launch_week", phase: "lancio", question: "La settimana di lancio è coperta?", resolvedIf: "timeline fase lancio senza hole block" },
-  { code: "followups_due", phase: "ricontatti", question: "Chi è in attesa di ricontatto?", resolvedIf: "nessuna outreach waiting scaduta" },
+  { code: "launch_date", phase: "lancio", question: "Quando esce?", resolvedIf: "Release.dropDate o launchDate" },
+  { code: "distributor", phase: "prodotto", question: "Il master è stato inviato al distributore nei tempi?", resolvedIf: "task distributor_upload done o N/A" },
+  { code: "s4a", phase: "lancio", question: "Hai fatto il pitch su Spotify for Artists?", resolvedIf: "task s4a_editorial done o N/A" },
+  { code: "presave", phase: "lancio", question: "Pre-save / pre-order aperti?", resolvedIf: "task presave done o N/A" },
+  { code: "launch_week", phase: "lancio", question: "La settimana di lancio è coperta?", resolvedIf: "task release_day senza hole block" },
+  { code: "followups_due", phase: "ricontatti", question: "Chi è in attesa di ricontatto / sollecito?", resolvedIf: "nessuna outreach waiting scaduta" },
 ];
 
 export interface ContextNeed {
@@ -353,6 +418,16 @@ export const SHOW_WHEN_NEEDED: ContextNeed[] = [
     task: "giorno_lancio",
     phase: "lancio",
     pull: ["timeline", "social", "press", "identity", "single"],
+  },
+  {
+    task: "distributor_upload",
+    phase: "prodotto",
+    pull: ["piece", "asset", "identity"],
+  },
+  {
+    task: "s4a_pitch",
+    phase: "lancio",
+    pull: ["piece", "identity", "asset"],
   },
 ];
 
