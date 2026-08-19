@@ -1,19 +1,19 @@
-# The Distance Desk
+# Incubatore
 
-Banco di produzione per **un solo lavoro**: il concept album *The Distance* (Distance Proof Band).
+Banco vuoto per **completare un lavoro musicale che ancora non esiste come oggetto**.
 
-Non è uno studio AI generico. È uno **scaffale** con le caselle di questo album. Tu inserisci piano piano ciò che hai già. La app lo incasella. Poi tu e le AI riempite solo i buchi, restando coerenti con il materiale approvato.
+All’apertura non c’è un album, non ci sono tracce, non c’è un genere, non c’è un titolo. Non esistono 15 scaffali: il numero delle tracce **non è noto** alla creazione. Nomi, argomenti, epoche, personaggi arrivano solo da ciò che inserisci e confermi.
 
-Il piano completo è in [`PIANO.md`](PIANO.md). Il loop eroe (inbox → casella → buco) è specificato stato-per-stato in [`../docs/SPEC-CORE-LOOP.md`](../docs/SPEC-CORE-LOOP.md).
+The Distance (Room, ReNew, Dadej, π…) è **un** lavoro, irripetibile. Può entrare nell’incubatore come materiale. Non è lo scheletro dell’app.
 
 | File | Contenuto |
 |---|---|
-| [`PIANO.md`](PIANO.md) | Spec completa: loop, stack, UI, AI, flussi, API, canone |
-| [`../docs/SPEC-CORE-LOOP.md`](../docs/SPEC-CORE-LOOP.md) | Macchine a stati, classifier, walkthrough, write-back |
-| [`UI.md`](UI.md) | Wireframe pagina per pagina |
-| [`schema.ts`](schema.ts) | Modello di dominio tipizzato (contratto implementativo) |
-| [`matrice-completezza.json`](matrice-completezza.json) | Stato reale delle 15 tracce oggi, letto dal repo |
+| [`PIANO.md`](PIANO.md) | Spec: incubatore vuoto, nascita delle caselle, stack, AI, UI, flussi |
+| [`../docs/SPEC-CORE-LOOP.md`](../docs/SPEC-CORE-LOOP.md) | Stati, classifier, walkthrough, write-back |
+| [`UI.md`](UI.md) | Wireframe pagina per pagina (stato vuoto e stato dopo l’ingest) |
+| [`schema.ts`](schema.ts) | Contratto di dominio — nessuna costante di un album |
+| [`esempio-the-distance.json`](esempio-the-distance.json) | Cosa *emergerebbe* importando questo repo — non il default |
 
-## Loop in una riga
+## Loop
 
-**Inbox → proposta di casella → conferma umana → scaffale con buchi visibili → generazione vincolata → bozza → approvazione → write-back sul markdown del repo.**
+**Inbox → la app propone di *creare* o *riempire* una casella → confermi → lo scaffale cresce → genera solo i buchi del materiale approvato.**

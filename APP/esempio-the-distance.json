@@ -1,0 +1,102 @@
+{
+  "role": "example-only",
+  "not": "app-default-skeleton",
+  "means": "Cosa conterrebbe l'incubatore SE importassi questo repo e accettassi ogni proposta ALBUM/*.md. L'app parte da 0 pezzi.",
+  "album": "The Distance",
+  "canonVersion": "v3",
+  "readFrom": "repo files on 2026-08-19",
+  "notes": [
+    "PLAYLIST.md e i file ALBUM/ non sono allineati sui numeri interni.",
+    "ART/ è referenziato ma assente da git.",
+    "Dadej senza testo originale è una decisione emergente, da lockare dopo l'import, non una regola del core."
+  ],
+  "tracks": [
+    {
+      "file": "ALBUM/01-into-the-bore.md",
+      "title": "Into the Bore (The Frantic Caller)",
+      "year": "1997",
+      "cells": {
+        "meta": "approved",
+        "concept": "approved",
+        "lyrics": "approved",
+        "translation": "approved",
+        "analysis": "approved",
+        "artwork": "partial",
+        "audio_take": "empty",
+        "sample_ref": "approved"
+      }
+    },
+    {
+      "file": "ALBUM/02-jaded.md",
+      "title": "Jaded",
+      "cells": { "lyrics": "approved", "translation": "approved", "analysis": "approved" }
+    },
+    {
+      "file": "ALBUM/03-room.md",
+      "title": "Room Pt.1 (Echoes from the Void)",
+      "cells": { "lyrics": "approved", "translation": "approved", "archive": "approved" }
+    },
+    {
+      "file": "ALBUM/04-no-sense.md",
+      "title": "No Sense (Our Only Clue)",
+      "cells": { "lyrics": "draft", "translation": "draft" }
+    },
+    {
+      "file": "ALBUM/05-first-ripples.md",
+      "title": "First Ripples",
+      "cells": { "lyrics": "approved", "style_prompt": "approved", "gen_lyrics": "approved" }
+    },
+    {
+      "file": "ALBUM/06-then-go.md",
+      "title": "Then Go",
+      "cells": { "lyrics": "approved", "style_prompt": "approved", "gen_lyrics": "approved" }
+    },
+    {
+      "file": "ALBUM/07-80s.md",
+      "title": "80s (Eighties SOS)",
+      "cells": { "lyrics": "approved", "analysis": "approved" }
+    },
+    {
+      "file": "ALBUM/08-dadej.md",
+      "title": "Dadej",
+      "cells": { "lyrics": "not_applicable", "concept": "approved" },
+      "specialIfLocked": "reverse of Jaded — no original lyrics"
+    },
+    {
+      "file": "ALBUM/09-room-pt2.md",
+      "title": "Room Pt.2 (The Anthem from Nowhere)",
+      "cells": { "concept": "approved", "lyrics": "empty" }
+    },
+    {
+      "file": "ALBUM/10-the-code-within.md",
+      "title": "The Code Within",
+      "cells": { "lyrics": "approved", "style_prompt": "approved", "analysis": "approved" }
+    },
+    {
+      "file": "ALBUM/11-renew.md",
+      "title": "ReNew (The Ark is Built)",
+      "cells": { "concept": "partial", "lyrics": "empty" },
+      "conflicts": ["destinazione 1984 nel file vs 1983 in STORIA — da lockare"]
+    },
+    {
+      "file": "ALBUM/12-fifth.md",
+      "title": "Fifth (Leaving Home)",
+      "cells": { "lyrics": "approved", "style_prompt": "approved", "archive": "approved" }
+    },
+    {
+      "file": "ALBUM/13-voyage-through-forever.md",
+      "title": "Voyage Through Forever",
+      "cells": { "lyrics": "approved", "style_prompt": "approved" }
+    },
+    {
+      "file": "ALBUM/14-the-landing.md",
+      "title": "The Landing (Knowledge Bearers)",
+      "cells": { "concept": "approved", "lyrics": "empty" }
+    },
+    {
+      "file": "ALBUM/15-distance-proof.md",
+      "title": "Distance Proof (We Are Them)",
+      "cells": { "lyrics": "draft", "analysis": "approved" }
+    }
+  ]
+}

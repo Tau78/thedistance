@@ -1,161 +1,156 @@
-# The Distance Desk — UI pagina per pagina
+# Incubatore — UI
 
-Complemento di [`PIANO.md`](PIANO.md). Misure per desktop 1440×900; mobile 390×844.
+Complemento di [`PIANO.md`](PIANO.md). Desktop 1440×900, mobile 390×844.
+
+Niente chrome d’album (anni, π, 5125, “THE DISTANCE”) finché quel materiale non è slottato e tu non lo usi come identità.
 
 ---
 
 ## Chrome
 
+Stato vuoto:
+
 ```
-┌─ 1997 · 5125 · π ──────────────────────────────── CANON LOCK ● ── 41% ─┐
-│ ⌕  Cerca celle, versi, decisioni                                       │
-├──────────────┬────────────────────────────────────────────┬────────────┤
-│ INBOX  (7)   │                                            │ CONTESTO   │
-│ Scaffale     │              PAGINA                        │ 09 · 1984  │
-│ Canone       │                                            │ Atto III   │
-│ Stile        │                                            │ Hit. Non   │
-│ Artwork      │                                            │ spoilerare │
-│ Ricerca      │                                            │ 15.        │
-│ Linter  (4)  │                                            │            │
-│ Presentazione│                                            │ DIVIETI    │
-│ Sessione     │                                            │ · Cassandra│
-│ Impostazioni │                                            │ · π ovunque│
-└──────────────┴────────────────────────────────────────────┴────────────┘
+┌─ Incubatore · senza titolo · 0 pezzi ───────────────────────── 0% ─┐
+│ ⌕                                                                  │
+├──────────┬─────────────────────────────────────────┬───────────────┤
+│ Inbox    │                                         │ Contesto      │
+│ Scaffale │                                         │ Niente ancora │
+│ Canone   │                                         │               │
+│ Stile    │                                         │               │
+│ Artwork  │                                         │               │
+│ Ricerca  │                                         │               │
+│ Linter   │                                         │               │
+│ Genera   │                                         │               │
+│ Sessione │                                         │               │
+│ Present. │                                         │               │
+│ Impostaz.│                                         │               │
+└──────────┴─────────────────────────────────────────┴───────────────┘
 ```
 
-- Logo testo: `THE DISTANCE` in mono, `DESK` in muted.
-- `CANON LOCK` click → `/canon`. Ambra se esiste una mozione aperta.
-- Cerca: palette tipo command-K, risultati = celle e decisioni, non “file”.
+Dopo l’ingest (esempio: hai accettato un titolo):
 
-Mobile: barra bassa `Inbox | Scaffale | Genera | Altro`. Contesto in foglio dal basso.
+```
+┌─ The Distance · 11 pezzi · 2 decisioni ─────────────── 28% ─┐
+```
+
+Il nome in testata è la cella `work.title` se approved, altrimenti `senza titolo`.  
+Percentuale = celle esistenti, non “/15”.
+
+Mobile: `Inbox | Scaffale | Genera | Altro`.
+
+---
+
+## First-run / Scaffale vuoto
+
+Schermo intero, una colonna:
+
+```
+INCUBATORE
+
+Non c’è un album.
+Non ci sono tracce.
+Non c’è un genere.
+
+[ Inserisci materiale ]
+[ Nuovo pezzo ]
+```
+
+Niente form titolo/genere/numero. Niente anteprima di 15 tile.
 
 ---
 
 ## Inbox
 
 ```
-┌ Butta qui quello che hai — file, testo, voce, link Suno ─────────────┐
-│                        [ Importa repo ]                               │
-└───────────────────────────────────────────────────────────────────────┘
-┌ LOOKING THROUGH THE STARS.mp3          classifying  ░░░░░░           │
-├ scrap-hit.txt                          proposed                      │
-│  → 09 Room Pt.2 · lyrics_en   0.81                                   │
-│     alt: 09 concept 0.44                                             │
-│     [ Incasella ] [ Archivio ] [ Non è questo album ]                │
-├ nota-1993.md                           CONFLICT                      │
-│  ⚠ locked year-prologue = 1997                                       │
-│     [ Tieni 1997 ] [ Apri mozione ] [ Archivio ]                     │
-└───────────────────────────────────────────────────────────────────────┘
+┌ Butta qui quello che hai ─────────────────────────────────────┐
+└───────────────────────────────────────────────────────────────┘
+
+scrap.txt                         proposed
+  → Crea pezzo (senza nome) · lyrics     0.74
+     [ Crea e incasella ] [ Solo testo di lavoro ] [ Scarta ]
+
+playlist-bozza.md                 needs_human
+  → Crea 8 pezzi dai heading             0.61
+     [ Scegli quali… ] [ Tratta come note ]
+
+room-pt2-idea.txt                 proposed
+  → Pezzo già esistente “Room Pt.1”?     0.48
+     alt: Crea pezzo “Room Pt.2”
+     [ È un altro pezzo ] [ È lo stesso ] [ Non so ]
 ```
 
-Empty state copy: *Lo scaffale c’è già. Manca solo ciò che hai in tasca.*
+La CTA primaria, se non esiste un pezzo compatibile, è **Crea pezzo**, non “metti nello scaffale 09”.
 
 ---
 
-## Scaffale
+## Scaffale (con materiale)
+
+Lista, non griglia 15×N.
 
 ```
-  1983 ──radio──► 5125 ──SOS──► 1984
-    ▲                              │
-    └──── ARK ── Landing ──────────┴── ► Distance Proof ★
+Lavoro: (senza titolo)                    [ + Pezzo ]  [ Inserisci ]
 
-  celle: meta conc lyrIT anal sunoL sunoS art audio link  ?
-01 1997  ■    ■    ■     ■    □     □     ◐   □     ◐    ◐
-02 5125  ■    ■    ■     ■    □     □     ◐   □     ■    ◐
-…
-09 1984  ■    ■    □     □    □     □     ◐   □     ■    □   ← CTA
-15 1984  ■    ■    ◐     ■    □     □     ◐   □     ■    ■
+○  · untitled-1     concept □  lyrics ◐  audio □
+○  · First Ripples  concept ■  lyrics ■  style ■  art □
+○  · (wav)          audio ■   lyrics □
 ```
 
-- `■` approved  `◐` partial/draft  `□` empty  `✕` N/A  `*` generated  `⚠` conflict
-- Hover cella: tooltip “First Ripples · Suno Style · approved”
-- Click: `/tracks/{id}?cell=suno_style`
-- Filtro chip: `Buchi` `Conflitti` `Atto III` `1984` `Generabili`
+Drag per riordinare. L’ordine è `listen_order`, editabile, non sacro.  
+Click riga → `/pieces/:id`.
 
 ---
 
-## Traccia (Room Pt.2, vuota)
+## Pezzo
 
-Testata split: metà magenta 1984 / metà cyan “origine 5125”. Titolo grande, sottotitolo *The Anthem from Nowhere*.
+Testata: titolo o `Senza nome`. Campo labels a chip (le aggiungi tu o le accetti dal classifier): niente dropdown Anno/Atto precotto.
 
-Tab verticali a sinistra della card: Concetto · Testo · ITA · Analisi · Suno L · Suno S · Audio · Link · Domande.
+Tab celle del kit (vuote). Empty lyrics:
 
-Empty Testo:
+> Non c’è testo.  
+> Se generi, l’AI userà solo ciò che hai già approvato in questa incubazione.  
+> Oggi il pack è: *(elenco o “vuoto — chiederà o resterà minimale”)*.  
+> [ Genera ] [ Incolla ]
 
-> Questa è la hit. Code Within (10) deve poterla decodificare.  
-> Non nominare π, 5125, “we are them”.  
-> [ Genera prima bozza ] [ Incolla ciò che hai ]
-
-Dock basso fisso: `Genera questa cella` · `Catena: EN→IT→analisi→Suno` · costo ~.
-
-Dopo generate: due colonne **Bozza** | **Canone usato** (pack in chip). Pulsanti Approva / Rigenera (con nota) / Modifica.
+`not_applicable` è un menu tuo (“strumentale”, “reverse di [pezzo]”, “solo sample”).
 
 ---
 
 ## Canone
 
-Tabella 9 righe locked. Colonna destra “Impatto se tocchi”.  
-Bottone fantasma in fondo: `Apri mozione` — form: domanda, scelta nuova, perché. Preview impatti dal Steward **prima** del lock.
+Empty:
+
+> Non ci sono decisioni.  
+> Nascono quando confermi una frase del materiale (“il finale è X”)  
+> o quando ne scrivi una qui.  
+> [ Nuova decisione ]
+
+Niente tabella da 9 pin The Distance.
 
 ---
 
-## Style Lab
+## Stile / Artwork / Ricerca / Linter / Genera / Presentazione
 
-Sinistra: textarea template (syntax highlight banale).  
-Destra: tabella anti-monotonia editabile.  
-Sotto: card varianti 05 / 13 / 12 (override rock).  
-Toggle “π nel style: vietato / raro / solo 15”.
-
----
-
-## Artwork
-
-Griglia 4 colonne. Tile mancante = rettangolo tratteggiato con anno.  
-Drop sulla tile = inbox pre-riempita.  
-Menu tile: Brief AI · Genera immagine · Segna primaria (solo 07).  
-Cassandra in una riga “Bonus — fuori playlist”.
-
----
-
-## Ricerca
-
-4 schede fisse a tab. Ogni scheda: fonti slotted (URL + note) + campo “Aggiungi fonte”.  
-Niente search box universale che sembra ChatGPT.
-
----
-
-## Linter
-
-Lista tipo issue tracker. Severity color: block oro, warn muted, info cyan.  
-Click: split file-A vs file-B (ReNew vs STORIA).  
-Azioni: `Risolvi con scelta canone` / `Eccezione` / `Ignora fino all’export`.
-
----
-
-## Genera
-
-Kanban orizzontale: In coda · In corso · Da approvare · Fatto.  
-Card job: icona ruolo, target `09.lyrics_en`, modello, tempo.  
-“Prosegui il lavoro” in testata = Producer riempie In coda (max 3 senza conferma; oltre chiede).
+Tutte partono vuote e **si popolano sui pezzi esistenti**.  
+Artwork: 0 tile se 0 pezzi.  
+Genera: se 0 celle target, bottone spento, copy: *Prima serve almeno un pezzo o una nota slottata.*  
+Presentazione: disabilitata se 0 pezzi approved.  
+Ricerca: `+ Tema` — zero schede Frantic Caller di default.
 
 ---
 
 ## Sessione
 
-Composer con chip contesto già attaccati (`pack:09`).  
-Comandi `/` autocompletati.  
-Messaggio utente “scrivimi la 16” → risposta Steward in card rossa *rifiuto*, nessun job.
+Composer. Se l’incubazione è vuota e chiedi “scrivimi l’album”, refuse:
 
----
+> Non c’è materiale. Inserisci qualcosa o apri un pezzo.
 
-## Presentazione
-
-Thumb slide orizzontali. Slide con buco = cornice tratteggiata + label `TESTO MANCANTE`.  
-Export: `PDF canon-clean` disabilitato se lint block; `PDF di lavoro` sempre ok.
+`/struttura` lancia `propose_structure` (proposte in inbox), non crea 10 cassetti.
 
 ---
 
 ## Impostazioni
 
-Sezioni: Identità (solo lettura: The Distance) · Modelli per ruolo · Chiavi · Git · Pesatura completezza.  
-Nessun campo “Nome progetto”.
+Chiavi API, modelli per ruolo, git.  
+`Nuova incubazione` con conferma.  
+Niente “Album: The Distance” in sola lettura.

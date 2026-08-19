@@ -1,33 +1,36 @@
 /**
- * The Distance Desk — dominio.
- * Questo file è il contratto. L'app non ha "progetti" o "album multipli":
- * esiste un solo Album, già sagomato su The Distance.
+ * Incubatore — dominio.
+ * Nessun album, traccia, genere, epoca o decisione è precotto.
+ * Le istanze nascono dall'inbox + conferma umana.
  */
-
-export type Epoch =
-  | "1983"
-  | "1984"
-  | "1997"
-  | "5125"
-  | "BH01"
-  | "3141_CUT";
-
-export type Act = "PROLOGO" | "I" | "II" | "III" | "IV" | "FINALE";
 
 export type CellKind =
   | "meta"
   | "concept"
-  | "lyrics_en"
-  | "lyrics_it"
+  | "lyrics"
+  | "translation"
   | "analysis"
-  | "suno_lyrics"
-  | "suno_style"
+  | "style_prompt"
+  | "gen_lyrics"
   | "artwork"
   | "audio_take"
   | "links"
   | "open_questions"
   | "sample_ref"
-  | "archive";
+  | "archive"
+  | "custom";
+
+export type WorkCellKind =
+  | "title"
+  | "concept"
+  | "story"
+  | "listen_order"
+  | "decisions"
+  | "style_bible"
+  | "cover"
+  | "identity"
+  | "presentation"
+  | "notes";
 
 export type CellStatus =
   | "empty"
@@ -48,29 +51,10 @@ export type InboxKind =
   | "pdf"
   | "url"
   | "voice_memo"
-  | "suno_link"
+  | "generator_link"
   | "git_repo"
   | "screenshot"
   | "unknown";
-
-export type SlotTarget =
-  | { scope: "album"; cell: AlbumCellKind }
-  | { scope: "track"; trackId: string; cell: CellKind }
-  | { scope: "decision"; decisionId: string }
-  | { scope: "research"; topicId: string }
-  | { scope: "character"; characterId: string }
-  | { scope: "uncertain" };
-
-export type AlbumCellKind =
-  | "concept_source"
-  | "storia"
-  | "playlist"
-  | "decisions"
-  | "style_bible"
-  | "cover"
-  | "band_identity"
-  | "presentation"
-  | "signal_map";
 
 export type InboxStatus =
   | "received"
@@ -82,20 +66,32 @@ export type InboxStatus =
   | "rejected"
   | "archived";
 
+/** Una proposta può *creare* un pezzo che ancora non esiste. */
+export type SlotTarget =
+  | { scope: "work"; cell: WorkCellKind }
+  | { scope: "piece"; pieceId: string; cell: CellKind }
+  | { scope: "new_piece"; suggestedTitle?: string; suggestedIndex?: number; cell: CellKind }
+  | { scope: "decision"; decisionId?: string; newQuestion?: string }
+  | { scope: "research"; topicId?: string; newTopic?: string }
+  | { scope: "voice"; voiceId?: string; newName?: string }
+  | { scope: "symbol"; symbolId?: string; newName?: string }
+  | { scope: "uncertain" };
+
 export type GenerationKind =
-  | "lyrics_en"
-  | "lyrics_it"
+  | "lyrics"
+  | "translation"
   | "analysis"
-  | "suno_lyrics"
-  | "suno_style"
+  | "gen_lyrics"
+  | "style_prompt"
   | "artwork_brief"
   | "artwork_image"
   | "audio_official"
-  | "suno_export_pack"
+  | "export_pack"
   | "open_questions"
   | "continuity_lint"
   | "presentation"
-  | "research_digest";
+  | "research_digest"
+  | "propose_structure";
 
 export type GenerationStatus =
   | "queued"
@@ -107,59 +103,54 @@ export type GenerationStatus =
 
 export type DecisionStatus = "proposed" | "locked" | "superseded";
 
-export type VoiceId = "frantic_caller" | "narrator_i" | "she" | "choral_5125" | "choral_1984";
-
-export type SymbolId = "pi" | "bore" | "song_as_language" | "room" | "ark";
-
 export type LinkKind =
   | "precedes"
   | "follows"
   | "reverse_of"
   | "bookend"
   | "answers"
-  | "signal_from"
-  | "signal_to"
+  | "related"
   | "source_audio"
-  | "contrappunto";
+  | "custom";
 
-export type SignalDirection = "1983_to_5125" | "5125_to_1984" | "5125_to_1983" | "internal_1984";
-
-export interface Album {
-  id: "the-distance";
-  title: "The Distance";
-  band: "Distance Proof Band";
-  canonVersion: "v3";
+export interface Work {
+  id: string;
+  /** Null finché nessuno titolo è stato inserito o approvato. */
+  title: string | null;
+  artist: string | null;
+  /** Null: il genere non esiste finché non emerge dal materiale. */
+  genre: string | null;
   listenOrder: string[];
-  storyNotes: string;
+  createdAt: string;
 }
 
-export interface Track {
+export interface Piece {
   id: string;
-  number: number;
-  yearLabel: string;
-  epoch: Epoch;
-  title: string;
+  /** Ordine corrente, riassegnabile. Non è un tetto. */
+  index: number | null;
+  title: string | null;
   subtitle: string | null;
-  act: Act;
-  narrativeRole: string;
-  voices: VoiceId[];
-  symbols: SymbolId[];
-  signal?: SignalDirection;
+  /** Etichette libere nate dal materiale: anno, atto, epoca, umore… */
+  labels: Record<string, string>;
+  voices: string[];
+  symbols: string[];
   specialRules: SpecialRule[];
 }
 
 export interface SpecialRule {
   id: string;
   rule: string;
-  /** Se true, nessuna AI può violarla senza decisione umana esplicita. */
   locked: boolean;
+  /** Origine: inbox item o decisione, mai codice dell'app. */
+  sourceItemId?: string;
 }
 
 export interface Cell {
   id: string;
-  trackId: string | null;
-  albumCell?: AlbumCellKind;
-  kind: CellKind | AlbumCellKind;
+  workId: string;
+  pieceId: string | null;
+  kind: CellKind | WorkCellKind;
+  customKind?: string;
   status: CellStatus;
   currentVersionId: string | null;
   allowedGenerators: GenerationKind[];
@@ -170,7 +161,7 @@ export interface ItemVersion {
   cellId: string;
   origin: "imported" | "generated" | "human_edit";
   bodyMarkdown: string;
-  locale?: "en" | "it";
+  locale?: string;
   createdAt: string;
   approvedAt: string | null;
   model?: string;
@@ -180,6 +171,7 @@ export interface ItemVersion {
 
 export interface InboxItem {
   id: string;
+  workId: string;
   kind: InboxKind;
   status: InboxStatus;
   filename?: string;
@@ -197,28 +189,32 @@ export interface SlotProposal {
   confidence: number;
   reasons: string[];
   extractedTitle?: string;
-  extractedYear?: string;
   warnings: string[];
+  /** Se true, accettare crea un Piece nuovo. */
+  createsPiece: boolean;
 }
 
-export interface CanonDecision {
+export interface EmergentDecision {
   id: string;
+  workId: string;
   question: string;
   choice: string;
   status: DecisionStatus;
+  sourceItemIds: string[];
   lockedAt?: string;
   supersededBy?: string;
 }
 
-export interface TrackLink {
-  fromTrackId: string;
-  toTrackId: string;
+export interface PieceLink {
+  fromPieceId: string;
+  toPieceId: string;
   kind: LinkKind;
   note?: string;
 }
 
 export interface Contradiction {
   id: string;
+  workId: string;
   severity: "info" | "warn" | "block";
   code: string;
   message: string;
@@ -229,6 +225,7 @@ export interface Contradiction {
 
 export interface GenerationJob {
   id: string;
+  workId: string;
   kind: GenerationKind;
   status: GenerationStatus;
   target: SlotTarget;
@@ -241,69 +238,30 @@ export interface GenerationJob {
 
 export type AgentRole =
   | "classifier"
-  | "canon_steward"
+  | "steward"
   | "lyricist"
   | "translator"
   | "analyst"
-  | "suno_engineer"
+  | "prompt_engineer"
   | "art_director"
   | "researcher"
   | "continuity_editor"
   | "producer";
 
-export const LOCKED_DECISIONS: CanonDecision[] = [
-  {
-    id: "scope",
-    question: "Scope album",
-    choice: "Album completo ~15 tracce. Cassandra Complex tagliata.",
-    status: "locked",
-  },
-  {
-    id: "origin",
-    question: "Origine del canale",
-    choice: "1983. 5125 = 1983 × π.",
-    status: "locked",
-  },
-  {
-    id: "signals",
-    question: "Direzione segnali",
-    choice: "Bidirezionale: 1983→5125 e 5125→1984 espliciti; navicella 5125→1983.",
-    status: "locked",
-  },
-  {
-    id: "dadej",
-    question: "Natura di Dadej",
-    choice: "Jaded al contrario. Nessun testo originale.",
-    status: "locked",
-  },
-  {
-    id: "room",
-    question: "Room",
-    choice: "Pt.1 (5125 ascolto) + Pt.2 (1984 hit).",
-    status: "locked",
-  },
-  {
-    id: "finale",
-    question: "Finale e ordine d'ascolto",
-    choice: "14 Landing → 15 Distance Proof. Distance Proof chiude. Opzione A.",
-    status: "locked",
-  },
-  {
-    id: "year-prologue",
-    question: "Anno prologo",
-    choice: "1997 (Frantic Caller verificato), non 1993.",
-    status: "locked",
-  },
-  {
-    id: "she",
-    question: "She",
-    choice: "Compagna di viaggio sulla navicella. Non conosce tutte le cicatrici del narratore.",
-    status: "locked",
-  },
-  {
-    id: "pi",
-    question: "Presenza di π",
-    choice: "Sottile: lore e Distance Proof, non ovunque.",
-    status: "locked",
-  },
+/** Kit di faccette di default per un pezzo appena creato. Vuote. Estendibili. */
+export const DEFAULT_PIECE_CELLS: CellKind[] = [
+  "meta",
+  "concept",
+  "lyrics",
+  "translation",
+  "analysis",
+  "style_prompt",
+  "gen_lyrics",
+  "artwork",
+  "audio_take",
+  "links",
+  "open_questions",
 ];
+
+/** Nessuna decisione locked all'avvio. */
+export const INITIAL_DECISIONS: EmergentDecision[] = [];
