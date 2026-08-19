@@ -190,10 +190,51 @@ export const CONTENT_LINE_DEFAULTS: Omit<ContentLine, "id" | "workId" | "release
 export interface EmailTemplate {
   id: string;
   workId: string;
-  kind: "press_kit" | "pitch" | "follow_up" | "custom";
+  kind: "press_kit" | "pitch" | "follow_up" | "presave" | "out_now" | "fan_update" | "custom";
   title: string;
   body: string;
-  /** Placeholders: {{title}} {{one_liner}} {{link}} {{contact_name}} */
+  html?: string;
+}
+
+export type MarketingPhase = "presave" | "release_week" | "post_release";
+export type MarketingStatus = "draft" | "scheduled" | "published" | "completed";
+
+export interface MarketingActivity {
+  id: string;
+  releaseId: string;
+  title: string;
+  platform: string;
+  phase: MarketingPhase;
+  status: MarketingStatus;
+  date: string | null;
+  contentLineId: string | null;
+}
+
+export interface MetadataField {
+  key: string;
+  label: string;
+  value: string | null;
+  requiredForDistributor: boolean;
+}
+
+export const METADATA_DSP_FIELDS: Omit<MetadataField, "value">[] = [
+  { key: "artist", label: "Artista", requiredForDistributor: true },
+  { key: "title", label: "Titolo", requiredForDistributor: true },
+  { key: "version", label: "Versione", requiredForDistributor: false },
+  { key: "primary_genre", label: "Genere primario", requiredForDistributor: true },
+  { key: "isrc", label: "ISRC", requiredForDistributor: false },
+  { key: "upc", label: "UPC", requiredForDistributor: false },
+  { key: "mood", label: "Mood", requiredForDistributor: false },
+  { key: "language", label: "Lingua", requiredForDistributor: false },
+];
+
+export interface BudgetLine {
+  id: string;
+  workId: string;
+  description: string;
+  amount: number;
+  category: string;
+  payment: "planned" | "pending" | "paid";
 }
 
 export type SlotTarget =

@@ -9,6 +9,7 @@ The Distance è un lavoro che ci può entrare. Non è l’app.
 | File | Contenuto |
 |---|---|
 | [`PIANO.md`](PIANO.md) | Spec completa |
+| [`FONTI.md`](FONTI.md) | Cosa copiare da Orphiq / ReleaseLoop / Harment e mix UI |
 | [`../docs/SPEC-CORE-LOOP.md`](../docs/SPEC-CORE-LOOP.md) | Stati, incasellamento, timeline, stampa |
 | [`UI.md`](UI.md) | Wireframe |
 | [`schema.ts`](schema.ts) | Contratto |

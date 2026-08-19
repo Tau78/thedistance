@@ -181,7 +181,10 @@ Singoli: conteggio `SinglePlan` sui pezzi esistenti.
 
 `Contact.kind`: magazine | blog | radio | playlist_curator.  
 `promoStatus`: `to_contact` → `email_sent` → `waiting_reply` → `review_confirmed`.  
-`EmailTemplate` press_kit / pitch / follow_up: copia, non SMTP. Placeholder. Refuse testo se pack identità vuoto (mostra buchi).
+`EmailTemplate` press_kit / pitch / follow_up / presave / out_now: copia testo o HTML (DropMail).  
+`MarketingActivity`: piattaforma + fase presave|release_week|post_release.  
+`METADATA_DSP_FIELDS`: gate su `distributor_upload`.  
+Sessione: suggerimento → `ReleaseTask` (Apollo-in-the-plan). Vedi [`../APP/FONTI.md`](../APP/FONTI.md).
 
 ---
 

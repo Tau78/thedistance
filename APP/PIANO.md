@@ -4,7 +4,8 @@
 > Tu butti dentro ciò che hai. La app lo incasella.  
 > Poi, lungo una timeline **dalla creazione al lancio**, ti mostra i pezzi che servono e i buchi che mancano: testi, singoli, storie, post, foto, mail alle riviste, ricontatti.
 >
-> Dettaglio stati: [`../docs/SPEC-CORE-LOOP.md`](../docs/SPEC-CORE-LOOP.md).
+> Dettaglio stati: [`../docs/SPEC-CORE-LOOP.md`](../docs/SPEC-CORE-LOOP.md).  
+> Inventario Orphiq / ReleaseLoop / Harment e mix UI: [`FONTI.md`](FONTI.md).
 
 Quattro cose insieme: incubatore, casellario, produttore, ufficio stampa.  
 The Distance non è lo scheletro. È un possibile contenuto.

@@ -1,6 +1,9 @@
 # Incubatore — UI
 
-Desktop 1440×900, mobile 390×844. Banco, non identità di un album.
+Desktop 1440×900, mobile 390×844. Banco scuro, tabelle dense.  
+Mix per schermata: [`FONTI.md`](FONTI.md). Non copiamo un look unico.
+
+Mobile: `Oggi | Inbox | Piano | Altro`.
 
 ---
 
@@ -10,8 +13,10 @@ Desktop 1440×900, mobile 390×844. Banco, non identità di un album.
 ┌─ Incubatore · senza titolo · 0 pezzi · fase: raccolta ──── buchi 12 ─┐
 │ ⌕  (celle, contatti, mail — non “file”)                              │
 ├──────────┬────────────────────────────────────────┬──────────────────┤
-│ Inbox    │                                        │ ORA SERVE        │
-│ Timeline │              PAGINA                    │ (librarian)      │
+│ Oggi     │                                        │ ORA SERVE        │
+│ Inbox    │                                        │ (librarian)      │
+│ Timeline │              PAGINA                    │                  │
+│ Calendario│                                       │                  │
 │ Caselle  │                                        │                  │
 │ Pezzi    │                                        │ Buchi di fase    │
 │ Singoli  │                                        │                  │
@@ -27,6 +32,21 @@ Desktop 1440×900, mobile 390×844. Banco, non identità di un album.
 
 Mobile: `Inbox | Timeline | Buchi | Altro`.  
 `ORA SERVE` è un foglio dal basso, cambia con la pagina.
+
+---
+
+## Oggi (`/` se c’è materiale o una data) — pattern ReleaseLoop
+
+```
+Prossimo drop  —  /  tra — giorni
+Urgenti oggi   2            Buchi aperti  6
+  · −42 Distributore  blocked  manca cover
+  · Ricontatto blog X
+
+[ T  nuovo task ]
+```
+
+Senza data e senza pezzi: first-run incubatore, non questa dashboard.
 
 ---
 
@@ -195,6 +215,22 @@ Comandi: `/buchi` `/singoli` `/pitch` `/social` `/ricontatti` `/timeline`.
 EPK da celle approved. Se buchi block (no bio, no cover), export “di lavoro” con watermark.
 
 ---
+
+## Calendario — pattern ReleaseLoop
+
+Mese / settimana. Cover sul giorno di drop. Filtri: solo uscite / solo marketing. iCal.
+
+## Pitch 500 — pattern Harment Pitch500
+
+Un form: genere, mood, strumenti, comparable, storia, fit. Contatore 500. [ Copia per S4A ].
+
+## Metadata — pattern Harment MetaAid
+
+Checklist DSP; rosso se manca obbligatorio. Sblocca il task distributore.
+
+## EPK — pattern ReleaseLoop
+
+Pagina/URL: foto, quote, pezzi approved, mail pubbliche scelte. Bozza privata finché non pubblichi.
 
 ## Impostazioni
 
