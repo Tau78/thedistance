@@ -98,15 +98,32 @@ mario-rumore.txt              proposed
 
 ## Casellario (`/cabinet`)
 
-Tab: Pezzi · Asset · Singoli · Identità · Social · Stampa · Decisioni.  
-Ognuna: lista o empty *“Nessun contatto. Inserisci o importa un foglio.”*
+Tab: **Brani** · Asset · Singoli · Identità · Social · Stampa · Decisioni.
+
+### Brani — tabella (Notion/Airtable)
+
+```
+        Titolo           Stato        Mancanti              Testo  Accordi  Audio
+        ──────────────   ──────────   ───────────────────   ─────  ───────  ─────
+        (senza nome)     Idea         —                     ◐      □        □
+        First Ripples    Demo         voci ritornello       ■      ■        ◐
+        —                Mix          accredito produttore  ■      □        ■
+
+Vista: Tabella | Kanban (Idea / Scrittura / Demo / Mix / Master)
+```
+
+0 righe: header colonne + *Nessun brano. L’incasellamento c’è, le tracce no.*
+
+Click riga → scheda pezzo.
 
 ---
 
-## Pezzo
+## Pezzo (scheda)
 
-Invariato nel kit creativo (lyrics, audio, art…).  
-In testata chip: `è un singolo?` se la fase prodotto è aperta.
+Testata: titolo, select **Idea / Scrittura / Demo / Mix / Master**.  
+Blocco **Elementi mancanti**: chip + “+ manca…” (voci coro, credito, altro).  
+Sezioni: Testo · Accordi · Audio (lista allegati: demo.wav, mix.wav) · resto del kit.  
+Chip `è un singolo?` se la fase prodotto è aperta.
 
 ---
 

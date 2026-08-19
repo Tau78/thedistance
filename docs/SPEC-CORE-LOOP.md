@@ -159,12 +159,26 @@ Adapter thedistance solo su `PIECES` se lo attivi.
 
 ---
 
+## 9b. Casellario brani (template Notion/Airtable)
+
+Vista tabella/kanban su `Piece`. Colonne fisse, record 0 all’avvio.
+
+`productionStatus`: `idea | writing | demo | mix | master | released`.  
+Inbox wav → proposta `demo`. Testo senza audio → `writing` o `idea`.
+
+`MissingItem`: buchi detti (voci coro, credito produttore…).  
+`piece.setProduction(master)` refuse se missing `open` di kind `audio`|`credit`.
+
+Celle `lyrics`, `chords`, allegati audio (N file per pezzo: demo/mix/master).
+
+---
+
 ## 10. v1
 
 1. Inbox + famiglie + 8 fasi + holes.report  
-2. Librarian  
-3. Singoli + outreach stati + reminder  
-4. proposeBackward  
+2. Tabella brani (stato produzione, missing, testo, accordi, audio)  
+3. Librarian  
+4. Singoli + outreach + motore lancio  
 5. Generate pitch/bio/copy/lyrics sul pack  
 6. Export cartella / eml  
 
@@ -175,6 +189,7 @@ Adapter thedistance solo su `PIECES` se lo attivi.
 | Dove | Testo |
 |---|---|
 | Empty | Non c’è un album. Non c’è un lancio. |
+| Tabella brani 0 | L’incasellamento c’è, le tracce no. |
 | Singoli 0 pezzi | Prima serve almeno un pezzo. |
 | Pitch senza bio | Manca la bio: è un buco, non la invento. |
 | Social senza numeri | Quante storie, post, foto? |

@@ -80,10 +80,41 @@ export type DrawerFamily =
   | "decision"
   | "research";
 
+/** Pipeline da studio, stile template Notion/Airtable Music Release. */
+export type ProductionStatus = "idea" | "writing" | "demo" | "mix" | "master" | "released";
+
+export const PRODUCTION_STATUS_ORDER: ProductionStatus[] = [
+  "idea",
+  "writing",
+  "demo",
+  "mix",
+  "master",
+  "released",
+];
+
+export type MissingKind =
+  | "vocal"
+  | "chorus_vocal"
+  | "lyric"
+  | "chord"
+  | "audio"
+  | "credit"
+  | "artwork"
+  | "other";
+
+export interface MissingItem {
+  id: string;
+  pieceId: string;
+  kind: MissingKind;
+  label: string;
+  status: "open" | "resolved" | "accepted_na";
+}
+
 export type PieceCellKind =
   | "meta"
   | "concept"
   | "lyrics"
+  | "chords"
   | "translation"
   | "analysis"
   | "style_prompt"
@@ -124,6 +155,7 @@ export type OutreachKind = "first_touch" | "follow_up" | "thank_you" | "promo" |
 export type SlotTarget =
   | { scope: "work"; cell: WorkCellKind }
   | { scope: "piece"; pieceId: string; cell: PieceCellKind }
+  | { scope: "missing"; pieceId: string; missingId?: string }
   | { scope: "new_piece"; suggestedTitle?: string; cell: PieceCellKind }
   | { scope: "asset"; assetId?: string; kind: AssetKind }
   | { scope: "new_asset"; kind: AssetKind }
@@ -190,6 +222,7 @@ export interface Piece {
   index: number | null;
   title: string | null;
   subtitle: string | null;
+  productionStatus: ProductionStatus;
   labels: Record<string, string>;
   specialRules: SpecialRule[];
 }
@@ -365,6 +398,7 @@ export const METHOD_HOLES: MethodHole[] = [
   { code: "has_any_material", phase: "raccolta", question: "Cosa hai già?", resolvedIf: "≥1 item accepted" },
   { code: "has_piece", phase: "creazione", question: "Esiste almeno un pezzo?", resolvedIf: "≥1 piece" },
   { code: "piece_holes", phase: "creazione", question: "Quali pezzi sono incompleti?", resolvedIf: "report vuoto o accettato" },
+  { code: "production_pipeline", phase: "creazione", question: "Dove sono i brani in Idea / Scrittura / Demo / Mix / Master?", resolvedIf: "ogni pezzo ha productionStatus; missing aperti visibili" },
   { code: "singles", phase: "prodotto", question: "Quali sono i singoli?", resolvedIf: "≥1 SinglePlan approved o N/A" },
   { code: "listen_order", phase: "prodotto", question: "C'è un ordine d'ascolto?", resolvedIf: "listenOrder.length ≥1 o 1 pezzo" },
   { code: "credits", phase: "prodotto", question: "Ci sono i credits?", resolvedIf: "credits approved o N/A" },
@@ -435,6 +469,7 @@ export const DEFAULT_PIECE_CELLS: PieceCellKind[] = [
   "meta",
   "concept",
   "lyrics",
+  "chords",
   "translation",
   "analysis",
   "style_prompt",

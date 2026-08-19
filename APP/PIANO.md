@@ -131,6 +131,41 @@ Se la casella è vuota, **non** riempie con The Distance. Mostra il buco.
 
 ---
 
+## 4b. Centro di controllo (template, non contenuto)
+
+Artisti e manager oggi tengono il lancio su **Notion o Airtable** con un modello “Music Release & Album Management”. Quello che funziona, e che copiamo come *colonne*, è: schede già **incasellate**, righe vuote.
+
+Non apriamo 12 brani finti. Apriamo un **database con le colonne giuste** e 0 record. Ogni pezzo che confermi diventa una riga + una scheda.
+
+Le schede del modello (questa è la prima; le altre — lancio, stampa, social — restano le famiglie già definite):
+
+### Scheda 1 — Casellario album (tracciamento brani)
+
+Vista **tabella** (Airtable) e **scheda** (Notion page). Stesso oggetto `Piece`.
+
+| Colonna | Valori | Note |
+|---|---|---|
+| Titolo | testo o `senza nome` | |
+| Stato produzione | **Idea → Scrittura → Demo → Mix → Master** (poi `released`) | Diverso dallo stato celle (approved/draft). È la vita in studio. |
+| Elementi mancanti | lista aperta | “mancano le voci del ritornello”, “manca l’accredito al produttore”. Non solo celle vuote: buchi *detti*. |
+| Testo | cella `lyrics` | allegati e versioni |
+| Accordi | cella `chords` | testo/tab/PDF |
+| Audio | `audio_take` + allegati | demo, mix, master come file, non un solo slot |
+| Cover pezzo | opzionale | |
+| Singolo? | link a `SinglePlan` | |
+
+Regole:
+
+- Nuovo pezzo nasce in **Idea** (o Demo se l’inbox è un wav).
+- Un `MissingItem` si crea a mano, dal produttore, o dal classifier (“nel memo dici che manca il coro”).
+- Non puoi più marcare **Master** se restano missing `open` di tipo audio/credit — o accetti eccezione.
+- Il motore di lancio (`lock_master`, distributore) legge questo stato: senza pezzi in Mix/Master, il task resta `blocked_missing`.
+- Filtri tabella: per stato, “ha missing”, “senza audio”, “senza testo”. Raggruppa per stato come board Kanban (seconda vista).
+
+Empty: colonne visibili, zero righe, CTA *Inserisci un brano* / *Nuovo pezzo*.
+
+---
+
 ## 5. Produttore — buchi di creazione e di prodotto
 
 Domande che il produttore pone **quando ha senso** (c’è almeno un pezzo, o sei tu che apri la fase):
@@ -331,6 +366,7 @@ Oltre a work/inbox/piece/generate:
 `release.setDropDate` · `release.moveDate` · `release.tick`  
 `singles.set` · `social.plan` · `social.item`  
 `contacts.*` · `outreach.*` · `context.pull(task)`  
+`piece.setProduction` · `missing.add` · `missing.resolve`  
 `export.epk` · `export.timeline` · `export.eml` · `export.releasePdf`
 
 ---
